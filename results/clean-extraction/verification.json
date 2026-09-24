@@ -1,0 +1,39 @@
+{
+  "interpretation": "Finite clean-extraction agreement is not proof-assistant verification or independent human review.",
+  "general_proof_mechanized": false,
+  "independent_human_review": false,
+  "archive_role": "complete project clean extraction",
+  "paper_build": {
+    "exit_status": 0,
+    "elapsed": "0:03.55",
+    "max_rss_kib": 57984,
+    "main_pages": 12,
+    "appendix_pages": 4,
+    "critical_latex_warnings": false
+  },
+  "reproduction_process": {
+    "exit_status": 0,
+    "elapsed": "0:09.64",
+    "max_rss_kib": 96936
+  },
+  "scientific_reproduction": {
+    "exact_deterministic_files": 17,
+    "exact_files_equal": true,
+    "deterministic_summaries_equal": [
+      "finite/summary.json",
+      "continuity/summary.json"
+    ],
+    "unit_test_transcript_equal_after_runtime_normalization": true,
+    "mismatches": [],
+    "reproduction": {
+      "all_commands_succeeded": true,
+      "deterministic_certificate_bytes_equal": true,
+      "expected_finite_counts_equal": true,
+      "expected_continuity_counts_equal": true,
+      "measured_child_cpu_seconds": 8.976219,
+      "cumulative_child_peak_rss_kib": 96936,
+      "general_proof_mechanized": false,
+      "independent_human_review": false
+    }
+  }
+}

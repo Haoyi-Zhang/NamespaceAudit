@@ -1,0 +1,50 @@
+[
+  {
+    "step": "unit-tests",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 0.683171,
+    "wall_seconds": 0.6860681699999986,
+    "cumulative_child_peak_rss_kib": 94760
+  },
+  {
+    "step": "finite-reproduction",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 1.0992589999999998,
+    "wall_seconds": 1.1016195180000068,
+    "cumulative_child_peak_rss_kib": 94760
+  },
+  {
+    "step": "continuity-reproduction",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 4.036729,
+    "wall_seconds": 4.038886642999842,
+    "cumulative_child_peak_rss_kib": 95916
+  },
+  {
+    "step": "certificate-generation",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 0.6888479999999989,
+    "wall_seconds": 0.6906458089997614,
+    "cumulative_child_peak_rss_kib": 95916
+  },
+  {
+    "step": "certificate-replay",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 0.630163,
+    "wall_seconds": 0.6324959119997402,
+    "cumulative_child_peak_rss_kib": 95916
+  },
+  {
+    "step": "continuity-replay",
+    "exit_code": 0,
+    "workers": 1,
+    "cpu_seconds": 1.4094410000000004,
+    "wall_seconds": 1.4119757970001956,
+    "cumulative_child_peak_rss_kib": 95916
+  }
+]

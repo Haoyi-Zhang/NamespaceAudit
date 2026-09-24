@@ -1,0 +1,101 @@
+{
+  "purpose": "recovery-ordered continuity finite validation",
+  "threshold_grid": {
+    "cases": 46656,
+    "counts": {
+      "no-conflict": 31104,
+      "prevented": 2953,
+      "accountable-fork": 3527,
+      "silent-fork": 9072
+    },
+    "mismatches": 0,
+    "incomparable_exposure_margin_histogram": {
+      "0": 12599,
+      "1": 2515,
+      "2": 409,
+      "3": 29
+    }
+  },
+  "graph_grid": {
+    "models": 3456,
+    "result_counts": {
+      "no-conflict": 1920,
+      "prevented": 72,
+      "accountable-fork": 348,
+      "silent-fork": 1116
+    },
+    "incompatible_view_pairs": 2496,
+    "joint_exposure_blocked_pairs": 2,
+    "oracle_mismatches": 0,
+    "model_exposure_margin_histogram": {
+      "0": 1464,
+      "1": 70,
+      "2": 2,
+      "none": 1920
+    },
+    "pair_exposure_margin_histogram": {
+      "0": 2384,
+      "1": 110,
+      "2": 2
+    },
+    "pair_class_margin_histogram": {
+      "accountable-fork|0": 548,
+      "prevented|1": 110,
+      "prevented|2": 2,
+      "silent-fork|0": 1836
+    },
+    "hall_obstruction_certificates": 112
+  },
+  "hitting_set_reduction_grid": {
+    "cases": 508,
+    "fork_feasible": 275,
+    "fork_blocked": 233,
+    "reduction_mismatches": 0,
+    "exposure_margin_histogram": {
+      "0": 275,
+      "1": 127,
+      "2": 90,
+      "3": 16
+    }
+  },
+  "policy_pair_grid": {
+    "cases": 512,
+    "fork_feasible": 276,
+    "fork_blocked": 236,
+    "oracle_mismatches": 0,
+    "exposure_margin_histogram": {
+      "0": 276,
+      "1": 124,
+      "2": 64,
+      "3": 29,
+      "4": 15,
+      "5": 4
+    }
+  },
+  "controls": {
+    "cases": 8,
+    "expected_results_equal": true,
+    "exposure_margin_histogram": {
+      "0": 3,
+      "1": 3,
+      "none": 2
+    }
+  },
+  "capacity_margin_oracle_grid": {
+    "cases": 19208,
+    "mismatches": 0,
+    "exposure_margin_histogram": {
+      "0": 8416,
+      "1": 7581,
+      "2": 2784,
+      "3": 427
+    }
+  },
+  "total_primary_cases": 70348,
+  "workers": 1,
+  "cpu_seconds": 3.4476445780000002,
+  "wall_seconds": 3.4478902430000744,
+  "peak_rss_kib": 95916,
+  "general_theorem_mechanized": false,
+  "independent_human_review": false
+}

@@ -1,0 +1,1198 @@
+[
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "old",
+          "locus": "name",
+          "policy": "oldp",
+          "requires": {}
+        },
+        {
+          "dominates": [
+            "old"
+          ],
+          "id": "recovery",
+          "locus": "name",
+          "policy": "recp",
+          "requires": {}
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          0
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-resolved-recovery",
+      "key_count": 2,
+      "loci": [
+        {
+          "id": "name",
+          "parents": []
+        }
+      ],
+      "policies": [
+        {
+          "id": "oldp",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        },
+        {
+          "id": "recp",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": true,
+      "id": "control-resolved-recovery",
+      "incompatible_view_pairs": 0,
+      "minimum_exposure_margin": null,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 0,
+        "silent-fork": 0
+      },
+      "pairs": [],
+      "result": "no-conflict",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "old",
+          "locus": "name",
+          "policy": "oldp",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "recovery",
+          "locus": "name",
+          "policy": "recp",
+          "requires": {}
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          0
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-omitted-resolution",
+      "key_count": 2,
+      "loci": [
+        {
+          "id": "name",
+          "parents": []
+        }
+      ],
+      "policies": [
+        {
+          "id": "oldp",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        },
+        {
+          "id": "recp",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": false,
+      "globally_prevented": false,
+      "id": "control-omitted-resolution",
+      "incompatible_view_pairs": 1,
+      "minimal_fork_witness": {
+        "accountable": false,
+        "classification": "silent-fork",
+        "conflict_loci": [
+          "name"
+        ],
+        "exposure_margin": 0,
+        "forced_set_analysis": [
+          {
+            "exposure_deficit": 0,
+            "forced_keys": [],
+            "hall_obstruction": null,
+            "matching_size": 0
+          }
+        ],
+        "fork_witness": {
+          "exposures": [],
+          "forced_keys": [],
+          "supports": [
+            {
+              "left_event": "old",
+              "left_support": [
+                0
+              ],
+              "locus": "name",
+              "right_event": "recovery",
+              "right_support": [
+                1
+              ]
+            }
+          ]
+        },
+        "left_view": [
+          "old"
+        ],
+        "minimal_forced_sets": [
+          []
+        ],
+        "option_counts": [
+          1
+        ],
+        "right_view": [
+          "recovery"
+        ]
+      },
+      "minimum_exposure_margin": 0,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 0,
+        "silent-fork": 1
+      },
+      "pairs": [
+        {
+          "accountable": false,
+          "classification": "silent-fork",
+          "conflict_loci": [
+            "name"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [],
+              "hall_obstruction": null,
+              "matching_size": 0
+            }
+          ],
+          "fork_witness": {
+            "exposures": [],
+            "forced_keys": [],
+            "supports": [
+              {
+                "left_event": "old",
+                "left_support": [
+                  0
+                ],
+                "locus": "name",
+                "right_event": "recovery",
+                "right_support": [
+                  1
+                ]
+              }
+            ]
+          },
+          "left_view": [
+            "old"
+          ],
+          "minimal_forced_sets": [
+            []
+          ],
+          "option_counts": [
+            1
+          ],
+          "right_view": [
+            "recovery"
+          ]
+        }
+      ],
+      "result": "silent-fork",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "left",
+          "locus": "name",
+          "policy": "p",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "right",
+          "locus": "name",
+          "policy": "p",
+          "requires": {}
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          0
+        ],
+        "windows": [
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-bridge-blocked",
+      "key_count": 1,
+      "loci": [
+        {
+          "id": "name",
+          "parents": []
+        }
+      ],
+      "policies": [
+        {
+          "id": "p",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": true,
+      "id": "control-bridge-blocked",
+      "incompatible_view_pairs": 1,
+      "minimum_exposure_margin": 1,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 1,
+        "silent-fork": 0
+      },
+      "pairs": [
+        {
+          "accountable": true,
+          "classification": "prevented",
+          "conflict_loci": [
+            "name"
+          ],
+          "exposure_margin": 1,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 1,
+              "forced_keys": [
+                0
+              ],
+              "hall_obstruction": {
+                "capacity": 0,
+                "deficit": 1,
+                "demand": 1,
+                "keys": [
+                  0
+                ],
+                "slots": [
+                  0
+                ]
+              },
+              "matching_size": 0
+            }
+          ],
+          "fork_witness": null,
+          "left_view": [
+            "left"
+          ],
+          "minimal_forced_sets": [
+            [
+              0
+            ]
+          ],
+          "option_counts": [
+            1
+          ],
+          "right_view": [
+            "right"
+          ]
+        }
+      ],
+      "result": "prevented",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "left",
+          "locus": "name",
+          "policy": "p",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "right",
+          "locus": "name",
+          "policy": "p",
+          "requires": {}
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          1
+        ],
+        "windows": [
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-bridge-exposed",
+      "key_count": 1,
+      "loci": [
+        {
+          "id": "name",
+          "parents": []
+        }
+      ],
+      "policies": [
+        {
+          "id": "p",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": false,
+      "id": "control-bridge-exposed",
+      "incompatible_view_pairs": 1,
+      "minimal_fork_witness": {
+        "accountable": true,
+        "classification": "accountable-fork",
+        "conflict_loci": [
+          "name"
+        ],
+        "exposure_margin": 0,
+        "forced_set_analysis": [
+          {
+            "exposure_deficit": 0,
+            "forced_keys": [
+              0
+            ],
+            "hall_obstruction": null,
+            "matching_size": 1
+          }
+        ],
+        "fork_witness": {
+          "exposures": [
+            [
+              0,
+              0
+            ]
+          ],
+          "forced_keys": [
+            0
+          ],
+          "supports": [
+            {
+              "left_event": "left",
+              "left_support": [
+                0
+              ],
+              "locus": "name",
+              "right_event": "right",
+              "right_support": [
+                0
+              ]
+            }
+          ]
+        },
+        "left_view": [
+          "left"
+        ],
+        "minimal_forced_sets": [
+          [
+            0
+          ]
+        ],
+        "option_counts": [
+          1
+        ],
+        "right_view": [
+          "right"
+        ]
+      },
+      "minimum_exposure_margin": 0,
+      "pair_counts": {
+        "accountable-fork": 1,
+        "prevented": 0,
+        "silent-fork": 0
+      },
+      "pairs": [
+        {
+          "accountable": true,
+          "classification": "accountable-fork",
+          "conflict_loci": [
+            "name"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [
+                0
+              ],
+              "hall_obstruction": null,
+              "matching_size": 1
+            }
+          ],
+          "fork_witness": {
+            "exposures": [
+              [
+                0,
+                0
+              ]
+            ],
+            "forced_keys": [
+              0
+            ],
+            "supports": [
+              {
+                "left_event": "left",
+                "left_support": [
+                  0
+                ],
+                "locus": "name",
+                "right_event": "right",
+                "right_support": [
+                  0
+                ]
+              }
+            ]
+          },
+          "left_view": [
+            "left"
+          ],
+          "minimal_forced_sets": [
+            [
+              0
+            ]
+          ],
+          "option_counts": [
+            1
+          ],
+          "right_view": [
+            "right"
+          ]
+        }
+      ],
+      "result": "accountable-fork",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "r0",
+          "locus": "root",
+          "policy": "r",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "r1",
+          "locus": "root",
+          "policy": "r",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "c0",
+          "locus": "child",
+          "policy": "c",
+          "requires": {
+            "root": "r0"
+          }
+        },
+        {
+          "dominates": [],
+          "id": "c1",
+          "locus": "child",
+          "policy": "c",
+          "requires": {
+            "root": "r1"
+          }
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          1
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-joint-amplification",
+      "key_count": 2,
+      "loci": [
+        {
+          "id": "root",
+          "parents": []
+        },
+        {
+          "id": "child",
+          "parents": [
+            "root"
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "id": "r",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        },
+        {
+          "id": "c",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": true,
+      "id": "control-joint-amplification",
+      "incompatible_view_pairs": 1,
+      "minimum_exposure_margin": 1,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 1,
+        "silent-fork": 0
+      },
+      "pairs": [
+        {
+          "accountable": true,
+          "classification": "prevented",
+          "conflict_loci": [
+            "root",
+            "child"
+          ],
+          "exposure_margin": 1,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 1,
+              "forced_keys": [
+                0,
+                1
+              ],
+              "hall_obstruction": {
+                "capacity": 1,
+                "deficit": 1,
+                "demand": 2,
+                "keys": [
+                  0,
+                  1
+                ],
+                "slots": [
+                  0
+                ]
+              },
+              "matching_size": 1
+            }
+          ],
+          "fork_witness": null,
+          "left_view": [
+            "r0",
+            "c0"
+          ],
+          "minimal_forced_sets": [
+            [
+              0,
+              1
+            ]
+          ],
+          "option_counts": [
+            1,
+            1
+          ],
+          "right_view": [
+            "r1",
+            "c1"
+          ]
+        }
+      ],
+      "result": "prevented",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "r0",
+          "locus": "root",
+          "policy": "r",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "r1",
+          "locus": "root",
+          "policy": "r",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "c0",
+          "locus": "child",
+          "policy": "c",
+          "requires": {
+            "root": "r0"
+          }
+        },
+        {
+          "dominates": [],
+          "id": "c1",
+          "locus": "child",
+          "policy": "c",
+          "requires": {
+            "root": "r1"
+          }
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          2
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-joint-feasible",
+      "key_count": 2,
+      "loci": [
+        {
+          "id": "root",
+          "parents": []
+        },
+        {
+          "id": "child",
+          "parents": [
+            "root"
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "id": "r",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        },
+        {
+          "id": "c",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": false,
+      "id": "control-joint-feasible",
+      "incompatible_view_pairs": 1,
+      "minimal_fork_witness": {
+        "accountable": true,
+        "classification": "accountable-fork",
+        "conflict_loci": [
+          "root",
+          "child"
+        ],
+        "exposure_margin": 0,
+        "forced_set_analysis": [
+          {
+            "exposure_deficit": 0,
+            "forced_keys": [
+              0,
+              1
+            ],
+            "hall_obstruction": null,
+            "matching_size": 2
+          }
+        ],
+        "fork_witness": {
+          "exposures": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "forced_keys": [
+            0,
+            1
+          ],
+          "supports": [
+            {
+              "left_event": "r0",
+              "left_support": [
+                0
+              ],
+              "locus": "root",
+              "right_event": "r1",
+              "right_support": [
+                0
+              ]
+            },
+            {
+              "left_event": "c0",
+              "left_support": [
+                1
+              ],
+              "locus": "child",
+              "right_event": "c1",
+              "right_support": [
+                1
+              ]
+            }
+          ]
+        },
+        "left_view": [
+          "r0",
+          "c0"
+        ],
+        "minimal_forced_sets": [
+          [
+            0,
+            1
+          ]
+        ],
+        "option_counts": [
+          1,
+          1
+        ],
+        "right_view": [
+          "r1",
+          "c1"
+        ]
+      },
+      "minimum_exposure_margin": 0,
+      "pair_counts": {
+        "accountable-fork": 1,
+        "prevented": 0,
+        "silent-fork": 0
+      },
+      "pairs": [
+        {
+          "accountable": true,
+          "classification": "accountable-fork",
+          "conflict_loci": [
+            "root",
+            "child"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [
+                0,
+                1
+              ],
+              "hall_obstruction": null,
+              "matching_size": 2
+            }
+          ],
+          "fork_witness": {
+            "exposures": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "forced_keys": [
+              0,
+              1
+            ],
+            "supports": [
+              {
+                "left_event": "r0",
+                "left_support": [
+                  0
+                ],
+                "locus": "root",
+                "right_event": "r1",
+                "right_support": [
+                  0
+                ]
+              },
+              {
+                "left_event": "c0",
+                "left_support": [
+                  1
+                ],
+                "locus": "child",
+                "right_event": "c1",
+                "right_support": [
+                  1
+                ]
+              }
+            ]
+          },
+          "left_view": [
+            "r0",
+            "c0"
+          ],
+          "minimal_forced_sets": [
+            [
+              0,
+              1
+            ]
+          ],
+          "option_counts": [
+            1,
+            1
+          ],
+          "right_view": [
+            "r1",
+            "c1"
+          ]
+        }
+      ],
+      "result": "accountable-fork",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "left",
+          "locus": "name",
+          "policy": "all",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "right",
+          "locus": "name",
+          "policy": "all",
+          "requires": {}
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          1,
+          1,
+          1
+        ],
+        "windows": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      },
+      "id": "control-holey-hall",
+      "key_count": 3,
+      "loci": [
+        {
+          "id": "name",
+          "parents": []
+        }
+      ],
+      "policies": [
+        {
+          "id": "all",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            },
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "key": 2,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1,
+                2
+              ],
+              "k": 3,
+              "op": "threshold"
+            }
+          ],
+          "root": 3
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": true,
+      "id": "control-holey-hall",
+      "incompatible_view_pairs": 1,
+      "minimum_exposure_margin": 1,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 1,
+        "silent-fork": 0
+      },
+      "pairs": [
+        {
+          "accountable": true,
+          "classification": "prevented",
+          "conflict_loci": [
+            "name"
+          ],
+          "exposure_margin": 1,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 1,
+              "forced_keys": [
+                0,
+                1,
+                2
+              ],
+              "hall_obstruction": {
+                "capacity": 2,
+                "deficit": 1,
+                "demand": 3,
+                "keys": [
+                  0,
+                  1,
+                  2
+                ],
+                "slots": [
+                  0,
+                  2
+                ]
+              },
+              "matching_size": 2
+            }
+          ],
+          "fork_witness": null,
+          "left_view": [
+            "left"
+          ],
+          "minimal_forced_sets": [
+            [
+              0,
+              1,
+              2
+            ]
+          ],
+          "option_counts": [
+            1
+          ],
+          "right_view": [
+            "right"
+          ]
+        }
+      ],
+      "result": "prevented",
+      "valid_views": 2
+    }
+  },
+  {
+    "model": {
+      "events": [
+        {
+          "dominates": [],
+          "id": "r0",
+          "locus": "root",
+          "policy": "oldp",
+          "requires": {}
+        },
+        {
+          "dominates": [
+            "r0"
+          ],
+          "id": "r1",
+          "locus": "root",
+          "policy": "oldp",
+          "requires": {}
+        },
+        {
+          "dominates": [
+            "r1"
+          ],
+          "id": "r2",
+          "locus": "root",
+          "policy": "recp",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "c",
+          "locus": "child",
+          "policy": "oldp",
+          "requires": {
+            "root": "r0"
+          }
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          0
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ]
+      },
+      "id": "control-transitive-dominance",
+      "key_count": 2,
+      "loci": [
+        {
+          "id": "root",
+          "parents": []
+        },
+        {
+          "id": "child",
+          "parents": [
+            "root"
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "id": "oldp",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        },
+        {
+          "id": "recp",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            }
+          ],
+          "root": 0
+        }
+      ]
+    },
+    "result": {
+      "globally_accountable": true,
+      "globally_prevented": true,
+      "id": "control-transitive-dominance",
+      "incompatible_view_pairs": 0,
+      "minimum_exposure_margin": null,
+      "pair_counts": {
+        "accountable-fork": 0,
+        "prevented": 0,
+        "silent-fork": 0
+      },
+      "pairs": [],
+      "result": "no-conflict",
+      "valid_views": 3
+    }
+  }
+]

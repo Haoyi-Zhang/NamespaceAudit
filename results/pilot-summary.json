@@ -1,0 +1,21 @@
+{
+  "cpu_seconds": 0.272478465,
+  "finite_not_mechanized_general_proof": true,
+  "fork_feasible": 3186,
+  "independent_certificate_replay_failures": 0,
+  "main_cases": 5292,
+  "oracle_distinct_state_sum_over_window_capacity_inputs": 360,
+  "pair_blocked": 2106,
+  "peak_rss_kib": 94000,
+  "policy_cases": 128,
+  "policy_mismatches": 0,
+  "policy_truth_assignments": 8192,
+  "purpose": "pre-lock feasibility pilot",
+  "solver_oracle_mismatches": 0,
+  "threshold_cases": 15552,
+  "threshold_mismatches": 0,
+  "threshold_safe": 2953,
+  "threshold_unsafe": 12599,
+  "wall_seconds": 0.27232823100001724,
+  "workers": 1
+}

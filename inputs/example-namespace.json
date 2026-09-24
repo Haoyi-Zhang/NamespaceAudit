@@ -1,0 +1,85 @@
+{
+  "events": [
+    {
+      "dominates": [],
+      "id": "r0",
+      "locus": "root",
+      "policy": "r",
+      "requires": {}
+    },
+    {
+      "dominates": [],
+      "id": "r1",
+      "locus": "root",
+      "policy": "r",
+      "requires": {}
+    },
+    {
+      "dominates": [],
+      "id": "c0",
+      "locus": "child",
+      "policy": "c",
+      "requires": {
+        "root": "r0"
+      }
+    },
+    {
+      "dominates": [],
+      "id": "c1",
+      "locus": "child",
+      "policy": "c",
+      "requires": {
+        "root": "r1"
+      }
+    }
+  ],
+  "exposure": {
+    "capacity": [
+      1
+    ],
+    "windows": [
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ]
+  },
+  "id": "example-two-level-namespace",
+  "key_count": 2,
+  "loci": [
+    {
+      "id": "root",
+      "parents": []
+    },
+    {
+      "id": "child",
+      "parents": [
+        "root"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "id": "r",
+      "nodes": [
+        {
+          "key": 0,
+          "op": "key"
+        }
+      ],
+      "root": 0
+    },
+    {
+      "id": "c",
+      "nodes": [
+        {
+          "key": 1,
+          "op": "key"
+        }
+      ],
+      "root": 0
+    }
+  ]
+}

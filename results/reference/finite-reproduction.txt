@@ -1,0 +1,21 @@
+{
+  "purpose": "pre-lock feasibility pilot",
+  "main_cases": 5292,
+  "fork_feasible": 3186,
+  "pair_blocked": 2106,
+  "solver_oracle_mismatches": 0,
+  "independent_certificate_replay_failures": 0,
+  "threshold_cases": 15552,
+  "threshold_safe": 2953,
+  "threshold_unsafe": 12599,
+  "threshold_mismatches": 0,
+  "policy_cases": 128,
+  "policy_truth_assignments": 8192,
+  "policy_mismatches": 0,
+  "oracle_distinct_state_sum_over_window_capacity_inputs": 360,
+  "workers": 1,
+  "cpu_seconds": 0.394664789,
+  "wall_seconds": 0.3944184869997116,
+  "peak_rss_kib": 93484,
+  "finite_not_mechanized_general_proof": true
+}

@@ -1,0 +1,11 @@
+{
+  "initial_pilot_inputs_outputs_equal_current_reference": true,
+  "compared_files": [
+    "cases.jsonl",
+    "certificates.jsonl",
+    "case-results.csv",
+    "policies.jsonl"
+  ],
+  "raw_scientific_cases_retained_at": "reference/finite",
+  "not_a_general_proof": true
+}

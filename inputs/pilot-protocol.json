@@ -1,0 +1,21 @@
+{
+  "purpose": "pre-lock discriminating feasibility pilot, not deployment evaluation",
+  "freeze_order": "written before pilot execution",
+  "workers": 1,
+  "limits": {"address_space_bytes": 3221225472, "cpu_seconds_per_command": 120},
+  "main_grid": {
+    "keys": 3, "slots": 2, "nonempty_interval_windows": [[0],[1],[0,1]],
+    "capacity_per_slot": [0,1], "left_and_right_sets": "each of the seven nonempty subsets",
+    "expected_cases": 5292,
+    "enumeration_order": "windows in the listed order; capacity lexicographic; left then right increasing bitmask"
+  },
+  "mixed_threshold_grid": {
+    "keys":3,"slots":2,"windows":"same 27 window tuples", "capacity":"same 4 capacity tuples",
+    "committees":"each of seven nonempty subsets", "thresholds":"all 1..committee size",
+    "expected_cases":15552
+  },
+  "policy_grid": {"seed": 20260914, "count":128, "keys":6,"additional_gates":8,"maximum_fanin":4},
+  "controls": ["static-snapshot false safety", "total-budget false alarm", "noninterval Hall gap", "shared-descendant policy", "same-parent cross-mode lock", "correlated-storage boundary", "hidden revocation indistinguishability"],
+  "decision_rules": "fail on any solver/oracle or certificate mismatch; reject malformed certificates; do not interpret zero mismatches as a general mechanized proof",
+  "not_evaluated": ["runtime signatures", "real services", "full delegation revocation state machine", "production recovery latency", "end-to-end cryptographic implementation"]
+}

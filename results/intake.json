@@ -1,0 +1,15 @@
+{
+  "cpu_logical_available": 5,
+  "cgroup_cpu_quota_cores": 4,
+  "cgroup_memory_limit_bytes": 4294967296,
+  "cgroup_memory_current_at_intake_bytes": 359546880,
+  "host_MemAvailable_kB": 5065880,
+  "swap_total_kB": 0,
+  "writable_free_at_intake_bytes": 32029835264,
+  "chosen_workers": 1,
+  "experiment_address_space_limit_bytes": 3221225472,
+  "experiment_cpu_limit_seconds": 120,
+  "campaign_ceiling_cpu_seconds": 28800,
+  "reserved_repair_and_reproduction_fraction": 0.25,
+  "measurement_scope": "single initial inspection; no stress test; no hardware throughput claim"
+}

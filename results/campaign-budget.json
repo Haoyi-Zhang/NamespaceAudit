@@ -1,0 +1,24 @@
+{
+  "scope": "scientific checking only; document compilation and packaging are not algorithm experiments",
+  "exact_total_campaign_cpu_measured": false,
+  "nonoverlapping_measured_scopes": {
+    "initial_pilot_body_seconds": 0.272478465,
+    "final_reference_reproduction_children_seconds": 8.547611,
+    "clean_project_extraction_reproduction_children_seconds": 8.976219,
+    "clean_standalone_extraction_reproduction_children_seconds": 9.131674
+  },
+  "sum_of_these_measured_scopes_seconds": 26.927982465,
+  "unmetered_portions": "early exploratory checks, Python parent/startup CPU, TeX compilation, packaging, and review are not reconstructed as scientific CPU",
+  "conservative_accounting_allowances_seconds": {
+    "early_pilot_and_preliminary_checks": 180,
+    "parent_processes_and_repair_reruns": 180
+  },
+  "allowance_interpretation": "declared conservative budget debits, not observed timings or an exact reconstructed CPU total",
+  "total_budget_debit_seconds": 386.927982465,
+  "campaign_ceiling_seconds": 28800,
+  "repair_and_clean_reproduction_reserve_seconds": 7200,
+  "scientific_worker_count": 1,
+  "scientific_child_address_space_limit_bytes": 3221225472,
+  "scientific_child_cpu_limit_seconds": 120,
+  "maximum_observed_clean_reproduction_rss_kib": 96936
+}

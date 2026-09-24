@@ -1,0 +1,10 @@
+{
+  "all_commands_succeeded": true,
+  "deterministic_certificate_bytes_equal": true,
+  "expected_finite_counts_equal": true,
+  "expected_continuity_counts_equal": true,
+  "measured_child_cpu_seconds": 8.547611,
+  "cumulative_child_peak_rss_kib": 95916,
+  "general_proof_mechanized": false,
+  "independent_human_review": false
+}
