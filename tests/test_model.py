@@ -1,12 +1,12 @@
-import copy,sys,unittest
+import copy,sys,tempfile,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from finite_model import Case,analyze,minimal_supports,maximum_exposure,hall_obstruction,interval_obstruction,threshold_safe
 from replay import verify,all_minimal_supports,validate_case
 from controls import evaluate_controls
 from continuity import NamespaceModel, audit
-from continuity_replay import verify as verify_continuity
-from run_continuity import control_models, hitting_policy, threshold_policy
+from continuity_replay import direct_union_antichain, oracle as replay_oracle, verify as verify_continuity
+from run_continuity import branching_model, control_models, hitting_policy, run_controls, threshold_policy
 
 class ModelTests(unittest.TestCase):
     def setUp(self):
@@ -179,5 +179,61 @@ class ModelTests(unittest.TestCase):
         bad=copy.deepcopy(good);bad["minimal_fork_witness"]=copy.deepcopy(good["pairs"][0]);bad["minimal_fork_witness"]["left_view"]=["r1","c1"];mutations.append(bad)
         for item in mutations:
             self.assertFalse(verify_continuity(raw,item))
+
+    def test_direct_union_oracle_exercises_branching_pruning(self):
+        target=direct_union_antichain([[[0],[1]],[[1],[2]]])
+        self.assertEqual(target['minimal_sets'],[[1],[0,2]])
+        self.assertEqual(target['raw_combination_count'],4)
+        duplicate=direct_union_antichain([[[0],[1]],[[0],[1]]])
+        self.assertEqual(duplicate['minimal_sets'],[[0],[1]])
+        self.assertEqual(duplicate['distinct_union_count'],3)
+        superset=direct_union_antichain([[[0],[0,1]],[[2]]])
+        self.assertEqual(superset['minimal_sets'],[[0,2]])
+        shared=direct_union_antichain([[[0],[1]],[[0],[2]],[[0],[3]]])
+        self.assertEqual(shared['minimal_sets'],[[0],[1,2,3]])
+        reversed_target=direct_union_antichain([[[1],[2]],[[0],[1]]])
+        self.assertEqual(reversed_target['minimal_sets'],target['minimal_sets'])
+
+    def test_branching_model_preserves_feasible_incomparable_branch(self):
+        for reverse in (False,True):
+            with self.subTest(reverse=reverse):
+                raw=branching_model('branching-test-'+str(reverse).lower(),reverse)
+                result=audit(raw)
+                self.assertTrue(verify_continuity(raw,result))
+                self.assertEqual(result['valid_views'],2)
+                self.assertEqual(len(result['pairs']),1)
+                pair=result['pairs'][0]
+                self.assertEqual(pair['option_counts'],[2,2])
+                self.assertEqual(pair['minimal_forced_sets'],[[1],[0,2]])
+                self.assertEqual(pair['classification'],'accountable-fork')
+                self.assertTrue(pair['accountable'])
+                self.assertEqual(pair['exposure_margin'],0)
+                self.assertEqual(pair['fork_witness']['forced_keys'],[0,2])
+                direct=replay_oracle(raw)
+                self.assertEqual(direct['pairs'][0]['minimal_forced_sets'],[[1],[0,2]])
+
+    def test_replay_admission_rejects_vacuity_and_null_witness(self):
+        resolved=next(x for x in control_models() if x['id']=='control-resolved-recovery')
+        self.assertTrue(verify_continuity(resolved,audit(resolved)))
+        empty=copy.deepcopy(resolved);empty['id']='empty';empty['events']=[]
+        forged={'id':'empty','result':'no-conflict','valid_views':0,'incompatible_view_pairs':0,
+                'pair_counts':{'prevented':0,'accountable-fork':0,'silent-fork':0},
+                'globally_prevented':True,'globally_accountable':True,
+                'minimum_exposure_margin':None,'pairs':[]}
+        self.assertFalse(verify_continuity(empty,forged))
+        feasible=next(x for x in control_models() if x['id']=='control-joint-feasible')
+        bad=audit(feasible);bad['pairs'][0]['fork_witness']=None
+        self.assertFalse(verify_continuity(feasible,bad))
+
+    def test_policy_children_may_be_unsorted_but_must_precede(self):
+        nodes=[{'op':'key','key':0},{'op':'key','key':1},
+               {'op':'threshold','k':1,'children':[1,0]}]
+        self.assertEqual(minimal_supports(nodes,2,2),((0,),(1,)))
+
+    def test_semantic_control_distribution_is_automatic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            summary=run_controls(Path(directory))
+        self.assertEqual(summary['result_counts'],{
+            'no-conflict':2,'prevented':3,'accountable-fork':2,'silent-fork':1})
 
 if __name__=='__main__':unittest.main()

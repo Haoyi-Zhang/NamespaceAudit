@@ -1,0 +1,475 @@
+{
+  "family_cases": [
+    {
+      "expected": [
+        [
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "families": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      ],
+      "id": "target-two-locus"
+    },
+    {
+      "expected": [
+        [
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "families": [
+        [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ]
+      ],
+      "id": "reversed-locus-order"
+    },
+    {
+      "expected": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
+      "families": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ]
+      ],
+      "id": "duplicate-union"
+    },
+    {
+      "expected": [
+        [
+          0,
+          2
+        ]
+      ],
+      "families": [
+        [
+          [
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          [
+            2
+          ]
+        ]
+      ],
+      "id": "explicit-superset-deletion"
+    },
+    {
+      "expected": [
+        [
+          0
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "families": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        [
+          [
+            0
+          ],
+          [
+            2
+          ]
+        ],
+        [
+          [
+            0
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "id": "shared-key-three-locus"
+    }
+  ],
+  "model_cases": [
+    {
+      "events": [
+        {
+          "dominates": [],
+          "id": "r-left",
+          "locus": "root",
+          "policy": "a-left",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "r-right",
+          "locus": "root",
+          "policy": "a-right",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "c-left",
+          "locus": "child",
+          "policy": "b-left",
+          "requires": {
+            "root": "r-left"
+          }
+        },
+        {
+          "dominates": [],
+          "id": "c-right",
+          "locus": "child",
+          "policy": "b-right",
+          "requires": {
+            "root": "r-right"
+          }
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          1,
+          0,
+          1
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "id": "branching-forward",
+      "key_count": 3,
+      "loci": [
+        {
+          "id": "root",
+          "parents": []
+        },
+        {
+          "id": "child",
+          "parents": [
+            "root"
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "id": "a-left",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            },
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 1,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "a-right",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            },
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 2,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "b-left",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "key": 2,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 1,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "b-right",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "key": 2,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 2,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        }
+      ]
+    },
+    {
+      "events": [
+        {
+          "dominates": [],
+          "id": "r-left",
+          "locus": "root",
+          "policy": "b-left",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "r-right",
+          "locus": "root",
+          "policy": "b-right",
+          "requires": {}
+        },
+        {
+          "dominates": [],
+          "id": "c-left",
+          "locus": "child",
+          "policy": "a-left",
+          "requires": {
+            "root": "r-left"
+          }
+        },
+        {
+          "dominates": [],
+          "id": "c-right",
+          "locus": "child",
+          "policy": "a-right",
+          "requires": {
+            "root": "r-right"
+          }
+        }
+      ],
+      "exposure": {
+        "capacity": [
+          1,
+          0,
+          1
+        ],
+        "windows": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "id": "branching-reversed",
+      "key_count": 3,
+      "loci": [
+        {
+          "id": "root",
+          "parents": []
+        },
+        {
+          "id": "child",
+          "parents": [
+            "root"
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "id": "b-left",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "key": 2,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 1,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "b-right",
+          "nodes": [
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "key": 2,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 2,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "a-left",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            },
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 1,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        },
+        {
+          "id": "a-right",
+          "nodes": [
+            {
+              "key": 0,
+              "op": "key"
+            },
+            {
+              "key": 1,
+              "op": "key"
+            },
+            {
+              "children": [
+                0,
+                1
+              ],
+              "k": 2,
+              "op": "threshold"
+            }
+          ],
+          "root": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,685 @@
+{
+  "family_outputs": [
+    {
+      "id": "target-two-locus",
+      "observed": {
+        "distinct_union_count": 4,
+        "minimal_sets": [
+          [
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "raw_combination_count": 4
+      }
+    },
+    {
+      "id": "reversed-locus-order",
+      "observed": {
+        "distinct_union_count": 4,
+        "minimal_sets": [
+          [
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "raw_combination_count": 4
+      }
+    },
+    {
+      "id": "duplicate-union",
+      "observed": {
+        "distinct_union_count": 3,
+        "minimal_sets": [
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        "raw_combination_count": 4
+      }
+    },
+    {
+      "id": "explicit-superset-deletion",
+      "observed": {
+        "distinct_union_count": 2,
+        "minimal_sets": [
+          [
+            0,
+            2
+          ]
+        ],
+        "raw_combination_count": 2
+      }
+    },
+    {
+      "id": "shared-key-three-locus",
+      "observed": {
+        "distinct_union_count": 8,
+        "minimal_sets": [
+          [
+            0
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "raw_combination_count": 8
+      }
+    }
+  ],
+  "model_outputs": [
+    {
+      "direct_full_product_oracle": {
+        "globally_accountable": true,
+        "globally_prevented": false,
+        "id": "branching-forward",
+        "incompatible_view_pairs": 1,
+        "minimum_exposure_margin": 0,
+        "pair_counts": {
+          "accountable-fork": 1,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [
+          {
+            "accountable": true,
+            "classification": "accountable-fork",
+            "conflict_loci": [
+              "root",
+              "child"
+            ],
+            "exposure_margin": 0,
+            "forced_set_analysis": [
+              {
+                "exposure_deficit": 1,
+                "forced_keys": [
+                  1
+                ],
+                "hall_obstruction": {
+                  "capacity": 0,
+                  "deficit": 1,
+                  "demand": 1,
+                  "keys": [
+                    1
+                  ],
+                  "slots": [
+                    1
+                  ]
+                },
+                "matching_size": 0
+              },
+              {
+                "exposure_deficit": 0,
+                "forced_keys": [
+                  0,
+                  2
+                ],
+                "hall_obstruction": null,
+                "matching_size": 2
+              }
+            ],
+            "left_view": [
+              "r-left",
+              "c-left"
+            ],
+            "minimal_forced_keys": [
+              0,
+              2
+            ],
+            "minimal_forced_sets": [
+              [
+                1
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "option_counts": [
+              2,
+              2
+            ],
+            "right_view": [
+              "r-right",
+              "c-right"
+            ]
+          }
+        ],
+        "result": "accountable-fork",
+        "valid_views": 2
+      },
+      "id": "branching-forward",
+      "main_checker": {
+        "globally_accountable": true,
+        "globally_prevented": false,
+        "id": "branching-forward",
+        "incompatible_view_pairs": 1,
+        "minimal_fork_witness": {
+          "accountable": true,
+          "classification": "accountable-fork",
+          "conflict_loci": [
+            "root",
+            "child"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 1,
+              "forced_keys": [
+                1
+              ],
+              "hall_obstruction": {
+                "capacity": 0,
+                "deficit": 1,
+                "demand": 1,
+                "keys": [
+                  1
+                ],
+                "slots": [
+                  1
+                ]
+              },
+              "matching_size": 0
+            },
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [
+                0,
+                2
+              ],
+              "hall_obstruction": null,
+              "matching_size": 2
+            }
+          ],
+          "fork_witness": {
+            "exposures": [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                2
+              ]
+            ],
+            "forced_keys": [
+              0,
+              2
+            ],
+            "supports": [
+              {
+                "left_event": "r-left",
+                "left_support": [
+                  0
+                ],
+                "locus": "root",
+                "right_event": "r-right",
+                "right_support": [
+                  0,
+                  1
+                ]
+              },
+              {
+                "left_event": "c-left",
+                "left_support": [
+                  2
+                ],
+                "locus": "child",
+                "right_event": "c-right",
+                "right_support": [
+                  1,
+                  2
+                ]
+              }
+            ]
+          },
+          "left_view": [
+            "r-left",
+            "c-left"
+          ],
+          "minimal_forced_sets": [
+            [
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "option_counts": [
+            2,
+            2
+          ],
+          "right_view": [
+            "r-right",
+            "c-right"
+          ]
+        },
+        "minimum_exposure_margin": 0,
+        "pair_counts": {
+          "accountable-fork": 1,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [
+          {
+            "accountable": true,
+            "classification": "accountable-fork",
+            "conflict_loci": [
+              "root",
+              "child"
+            ],
+            "exposure_margin": 0,
+            "forced_set_analysis": [
+              {
+                "exposure_deficit": 1,
+                "forced_keys": [
+                  1
+                ],
+                "hall_obstruction": {
+                  "capacity": 0,
+                  "deficit": 1,
+                  "demand": 1,
+                  "keys": [
+                    1
+                  ],
+                  "slots": [
+                    1
+                  ]
+                },
+                "matching_size": 0
+              },
+              {
+                "exposure_deficit": 0,
+                "forced_keys": [
+                  0,
+                  2
+                ],
+                "hall_obstruction": null,
+                "matching_size": 2
+              }
+            ],
+            "fork_witness": {
+              "exposures": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  2
+                ]
+              ],
+              "forced_keys": [
+                0,
+                2
+              ],
+              "supports": [
+                {
+                  "left_event": "r-left",
+                  "left_support": [
+                    0
+                  ],
+                  "locus": "root",
+                  "right_event": "r-right",
+                  "right_support": [
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "left_event": "c-left",
+                  "left_support": [
+                    2
+                  ],
+                  "locus": "child",
+                  "right_event": "c-right",
+                  "right_support": [
+                    1,
+                    2
+                  ]
+                }
+              ]
+            },
+            "left_view": [
+              "r-left",
+              "c-left"
+            ],
+            "minimal_forced_sets": [
+              [
+                1
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "option_counts": [
+              2,
+              2
+            ],
+            "right_view": [
+              "r-right",
+              "c-right"
+            ]
+          }
+        ],
+        "result": "accountable-fork",
+        "valid_views": 2
+      },
+      "reported_result_accepted": true
+    },
+    {
+      "direct_full_product_oracle": {
+        "globally_accountable": true,
+        "globally_prevented": false,
+        "id": "branching-reversed",
+        "incompatible_view_pairs": 1,
+        "minimum_exposure_margin": 0,
+        "pair_counts": {
+          "accountable-fork": 1,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [
+          {
+            "accountable": true,
+            "classification": "accountable-fork",
+            "conflict_loci": [
+              "root",
+              "child"
+            ],
+            "exposure_margin": 0,
+            "forced_set_analysis": [
+              {
+                "exposure_deficit": 1,
+                "forced_keys": [
+                  1
+                ],
+                "hall_obstruction": {
+                  "capacity": 0,
+                  "deficit": 1,
+                  "demand": 1,
+                  "keys": [
+                    1
+                  ],
+                  "slots": [
+                    1
+                  ]
+                },
+                "matching_size": 0
+              },
+              {
+                "exposure_deficit": 0,
+                "forced_keys": [
+                  0,
+                  2
+                ],
+                "hall_obstruction": null,
+                "matching_size": 2
+              }
+            ],
+            "left_view": [
+              "r-left",
+              "c-left"
+            ],
+            "minimal_forced_keys": [
+              0,
+              2
+            ],
+            "minimal_forced_sets": [
+              [
+                1
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "option_counts": [
+              2,
+              2
+            ],
+            "right_view": [
+              "r-right",
+              "c-right"
+            ]
+          }
+        ],
+        "result": "accountable-fork",
+        "valid_views": 2
+      },
+      "id": "branching-reversed",
+      "main_checker": {
+        "globally_accountable": true,
+        "globally_prevented": false,
+        "id": "branching-reversed",
+        "incompatible_view_pairs": 1,
+        "minimal_fork_witness": {
+          "accountable": true,
+          "classification": "accountable-fork",
+          "conflict_loci": [
+            "root",
+            "child"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 1,
+              "forced_keys": [
+                1
+              ],
+              "hall_obstruction": {
+                "capacity": 0,
+                "deficit": 1,
+                "demand": 1,
+                "keys": [
+                  1
+                ],
+                "slots": [
+                  1
+                ]
+              },
+              "matching_size": 0
+            },
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [
+                0,
+                2
+              ],
+              "hall_obstruction": null,
+              "matching_size": 2
+            }
+          ],
+          "fork_witness": {
+            "exposures": [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                2
+              ]
+            ],
+            "forced_keys": [
+              0,
+              2
+            ],
+            "supports": [
+              {
+                "left_event": "r-left",
+                "left_support": [
+                  2
+                ],
+                "locus": "root",
+                "right_event": "r-right",
+                "right_support": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "left_event": "c-left",
+                "left_support": [
+                  0
+                ],
+                "locus": "child",
+                "right_event": "c-right",
+                "right_support": [
+                  0,
+                  1
+                ]
+              }
+            ]
+          },
+          "left_view": [
+            "r-left",
+            "c-left"
+          ],
+          "minimal_forced_sets": [
+            [
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "option_counts": [
+            2,
+            2
+          ],
+          "right_view": [
+            "r-right",
+            "c-right"
+          ]
+        },
+        "minimum_exposure_margin": 0,
+        "pair_counts": {
+          "accountable-fork": 1,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [
+          {
+            "accountable": true,
+            "classification": "accountable-fork",
+            "conflict_loci": [
+              "root",
+              "child"
+            ],
+            "exposure_margin": 0,
+            "forced_set_analysis": [
+              {
+                "exposure_deficit": 1,
+                "forced_keys": [
+                  1
+                ],
+                "hall_obstruction": {
+                  "capacity": 0,
+                  "deficit": 1,
+                  "demand": 1,
+                  "keys": [
+                    1
+                  ],
+                  "slots": [
+                    1
+                  ]
+                },
+                "matching_size": 0
+              },
+              {
+                "exposure_deficit": 0,
+                "forced_keys": [
+                  0,
+                  2
+                ],
+                "hall_obstruction": null,
+                "matching_size": 2
+              }
+            ],
+            "fork_witness": {
+              "exposures": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  2,
+                  2
+                ]
+              ],
+              "forced_keys": [
+                0,
+                2
+              ],
+              "supports": [
+                {
+                  "left_event": "r-left",
+                  "left_support": [
+                    2
+                  ],
+                  "locus": "root",
+                  "right_event": "r-right",
+                  "right_support": [
+                    1,
+                    2
+                  ]
+                },
+                {
+                  "left_event": "c-left",
+                  "left_support": [
+                    0
+                  ],
+                  "locus": "child",
+                  "right_event": "c-right",
+                  "right_support": [
+                    0,
+                    1
+                  ]
+                }
+              ]
+            },
+            "left_view": [
+              "r-left",
+              "c-left"
+            ],
+            "minimal_forced_sets": [
+              [
+                1
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "option_counts": [
+              2,
+              2
+            ],
+            "right_view": [
+              "r-right",
+              "c-right"
+            ]
+          }
+        ],
+        "result": "accountable-fork",
+        "valid_views": 2
+      },
+      "reported_result_accepted": true
+    }
+  ]
+}

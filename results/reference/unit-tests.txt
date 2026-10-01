@@ -1,7 +1,9 @@
 test_blocked_certificate_mutations (test_model.ModelTests.test_blocked_certificate_mutations) ... ok
+test_branching_model_preserves_feasible_incomparable_branch (test_model.ModelTests.test_branching_model_preserves_feasible_incomparable_branch) ... ok
 test_continuity_oracle_detects_mutation (test_model.ModelTests.test_continuity_oracle_detects_mutation) ... ok
 test_continuity_parser_rejects_bad_graphs (test_model.ModelTests.test_continuity_parser_rejects_bad_graphs) ... ok
 test_continuity_reader_rejects_witness_and_margin_mutations (test_model.ModelTests.test_continuity_reader_rejects_witness_and_margin_mutations) ... ok
+test_direct_union_oracle_exercises_branching_pruning (test_model.ModelTests.test_direct_union_oracle_exercises_branching_pruning) ... ok
 test_disjoint_has_empty_witness (test_model.ModelTests.test_disjoint_has_empty_witness) ... ok
 test_fork_certificate_mutations (test_model.ModelTests.test_fork_certificate_mutations) ... ok
 test_general_hall_certificate_and_margin (test_model.ModelTests.test_general_hall_certificate_and_margin) ... ok
@@ -12,14 +14,17 @@ test_maximum_gate_bound_not_cartesian_explosion (test_model.ModelTests.test_maxi
 test_no_conflict_is_distinct_from_prevented_pair (test_model.ModelTests.test_no_conflict_is_distinct_from_prevented_pair) ... ok
 test_parser_malformed_cases (test_model.ModelTests.test_parser_malformed_cases) ... ok
 test_policy_boundaries (test_model.ModelTests.test_policy_boundaries) ... ok
+test_policy_children_may_be_unsorted_but_must_precede (test_model.ModelTests.test_policy_children_may_be_unsorted_but_must_precede) ... ok
 test_positive_and_negative_certificates (test_model.ModelTests.test_positive_and_negative_certificates) ... ok
 test_recovery_order_controls (test_model.ModelTests.test_recovery_order_controls) ... ok
+test_replay_admission_rejects_vacuity_and_null_witness (test_model.ModelTests.test_replay_admission_rejects_vacuity_and_null_witness) ... ok
+test_semantic_control_distribution_is_automatic (test_model.ModelTests.test_semantic_control_distribution_is_automatic) ... ok
 test_seven_model_boundaries (test_model.ModelTests.test_seven_model_boundaries) ... ok
 test_shared_policy_leaf (test_model.ModelTests.test_shared_policy_leaf) ... ok
 test_threshold_edge_cases (test_model.ModelTests.test_threshold_edge_cases) ... ok
 test_transitive_dominance_satisfies_parent_requirement (test_model.ModelTests.test_transitive_dominance_satisfies_parent_requirement) ... ok
 
 ----------------------------------------------------------------------
-Ran 20 tests in 0.084s
+Ran 25 tests in 0.095s
 
 OK

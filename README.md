@@ -31,7 +31,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 src/reproduce.py --out results/local
 
 The runner executes one child at a time and refuses to overwrite evidence. It performs:
 
-1. 20 unit-test methods;
+1. 25 unit-test methods;
 2. the retained fixed-pair and policy-DAG regression campaign;
 3. the recovery-ordered continuity campaign;
 4. fixed-pair certificate generation and independent replay;
@@ -50,18 +50,23 @@ For a pair of incompatible views, select a minimal policy support for each selec
 
 ## Retained validation
 
-The current campaign contains 70,348 primary cases:
+The continuity summary contains 70,348 **heterogeneous recorded rows**, not 70,348 executions of one common checker/oracle path:
 
-| Family | Cases | Main observations | Oracle disagreements |
+| Evidence unit | Rows / models | Main observations | Mismatches |
 |---|---:|---|---:|
-| Relation-aware threshold grid | 46,656 | 31,104 no-conflict; 2,953 prevented; 3,527 accountable; 9,072 silent | 0 |
-| Two-locus graph grid | 3,456 | 1,920 no-conflict; 72 prevented; 348 accountable; 1,116 silent; 2 joint-only blocks; 112 Hall certificates | 0 |
-| HITTING SET reduction grid | 508 | 275 fork-feasible; 233 blocked | 0 |
-| Monotone-policy pairs | 512 | 276 fork-feasible; 236 blocked | 0 |
-| Named semantic controls | 8 | all expected classifications and margins | 0 |
+| Incomparable threshold formula/oracle | 15,552 | 2,953 prevented; 3,527 accountable; 9,072 silent | 0 |
+| Derived ordered-relation rows | 31,104 | `no-conflict` follows from supplied comparability; no namespace checker/replay call | not applicable |
+| Two-locus graph models | 3,456 | 1,920 no-conflict; 72 prevented; 348 accountable; 1,116 silent | 0 |
+| HITTING SET reduction models | 508 | 275 fork-feasible; 233 blocked | 0 |
+| Monotone-policy models | 512 | 276 fork-feasible; 236 blocked | 0 |
+| Named semantic controls | 8 | 2 no-conflict; 3 prevented; 2 accountable; 1 silent | 0 |
 | Capacity-margin oracle | 19,208 | exact added capacity equals matching deficit and maximum Hall deficiency | 0 |
 
-The graph models contain 2,496 incompatible valid-view pairs. Their pair margins are 0 for 2,384 pairs, 1 for 110 pairs, and 2 for two pairs. The retained one-locus regression contains 5,292 signer-pair cases, 15,552 mixed-threshold configurations, and 128 policy DAGs evaluated over 8,192 assignments. The one-locus prevention formula is explicitly identified as a specialization of Byzantine-quorum intersection, not a new quorum principle.
+The main checker and full-product replay are jointly exercised on the 4,484 namespace models in the graph, reduction, policy, and control rows. The graph grid contains 2,496 incompatible pairs, including 192 multi-locus pairs, but every pair has one local option per conflict locus and one final forced set. It therefore does **not** validate branching antichain pruning. Separate retained regressions cover five direct set-family cases and two namespace models. In the target model, local families `{{0},{1}}` and `{{1},{2}}` produce `{{1},{0,2}}`; windows `[0]`, `[1]`, `[2]` with capacity `[1,0,1]` preserve feasible `{0,2}`, yielding `accountable-fork` with margin 0. Exact inputs, outputs, and a zero-difference record are stored under `results/reference/continuity/branching-oracle-*.json`.
+
+Replay-admission controls retain one legal `no-conflict` case and reject an empty event list, a nonempty structurally valid model with zero valid views, and a feasible pair whose witness is null. The current reader performs its own bounded structure/reference checks and full Cartesian support-choice combination, then minimalizes once at the end. It does not reuse the main checker's local-intersection or layerwise union-antichain pruning. Both paths still share Python, JSON, the schema, and the mathematical specification.
+
+The retained one-locus regression contains 5,292 signer-pair cases, 15,552 mixed-threshold configurations, and 128 policy DAGs evaluated over 8,192 assignments. The one-locus prevention formula is explicitly identified as a specialization of Byzantine-quorum intersection, not a new quorum principle.
 
 Finite agreement checks an implementation over the stated inputs. It does not establish empirical prevalence, deployed cryptographic security, liveness, secure erasure, or the correctness of a real protocol's recovery order.
 
@@ -71,7 +76,7 @@ Finite agreement checks an implementation over the stated inputs. It does not es
 |---|---|
 | `src/continuity.py` | Strict parser, dominance closure, valid-view enumeration, minimal-support dynamic program, temporal exposure test, Hall/margin analysis, classifications and witnesses |
 | `src/continuity_audit.py` | Single-model fresh-file CLI |
-| `src/continuity_replay.py` | Independently written direct oracle; imports neither analyzer, parser, matching code, nor policy compiler; rechecks supports, schedules, Hall deficits, margins, and schema fields |
+| `src/continuity_replay.py` | Separately written bounded reader/oracle; performs its own admission, enumerates full support-choice products with final-only minimalization, and rechecks witnesses, Hall deficits, margins, and schema fields |
 | `src/run_continuity.py` | Deterministic threshold, graph, reduction, policy-pair, semantic-control, and exact capacity-margin campaigns |
 | `src/finite_model.py`, `src/replay.py`, `src/run_pilot.py` | Retained one-locus specialization, certificates, and exact regression campaign |
 | `src/reproduce.py` | Sequential full reproduction and count reconciliation |
@@ -85,10 +90,11 @@ Finite agreement checks an implementation over the stated inputs. It does not es
 | `claim_evidence_ledger.csv` | Claim-to-proof/check/result map |
 | `external_resources.csv` | External source identity, access, rights, and integration record |
 | `results/reference/` | Complete reference run generated by `src/reproduce.py` |
+| `results/pdf-command-verification.json` | Rebuilt-appendix text/command check using fresh output destinations |
 
 ## Implemented bounds
 
-The main checker admits 1--12 keys, 1--8 loci, 1--32 events, at most 8 events per locus, at most 32 policies, at most 64 nodes per policy, a 1--12-slot exposure horizon, and at most 100,000 candidate view tuples. The direct replay oracle admits at most 8 keys. Policy truth tables and exact support families are exponential in distinct keys; the general decision problem is NP-complete even for one locus and two events.
+The main checker admits 1--12 keys, 1--8 loci, 1--32 events, at most 8 events per locus, at most 32 policies, at most 64 nodes per policy, a 1--12-slot exposure horizon, and at most 100,000 candidate view tuples. The direct replay oracle admits at most 8 keys and 1,000,000 raw support-choice combinations per incompatible pair. Policy truth tables and exact support families are exponential in distinct keys; the general decision problem is NP-complete even for one locus and two events.
 
 ## Security and interpretation boundaries
 

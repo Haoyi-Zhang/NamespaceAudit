@@ -1,9 +1,10 @@
 """Deterministic campaign for recovery-ordered namespace continuity.
 
 The campaign is finite validation, not a machine-checked general proof.  It uses
-one process and four bounded families: an exhaustive three-key threshold grid,
-a two-locus delegation/recovery graph grid, a Hitting-Set reduction grid, and
-the retained monotone-policy sample.
+one process and reports heterogeneous evidence units separately: an explicit
+three-key threshold oracle grid, derived ordered-relation rows, admitted
+namespace models, an exact capacity-margin grid, targeted branching-pruning
+regressions, and replay-admission negative controls.
 """
 from __future__ import annotations
 
@@ -17,7 +18,7 @@ from itertools import combinations, product
 from pathlib import Path
 
 from continuity import Audit, NamespaceModel, audit
-from continuity_replay import oracle, verify
+from continuity_replay import direct_union_antichain, oracle, verify
 from finite_model import hall_obstruction, maximum_exposure
 from replay import oracle_exposed_sets
 
@@ -164,17 +165,27 @@ def ordered_pair_events(locus: str, left: str, right: str, left_policy: str, rig
 
 
 def run_threshold_grid(out: Path) -> dict:
+    """Compare the threshold formula only on incomparable-event instances.
+
+    The CSV also retains two derived comparable-relation rows per explicit
+    quorum/exposure comparison.  Those rows are bookkeeping checks of the
+    supplied relation semantics; they do not invoke the namespace checker or
+    the independent replay and are reported separately.
+    """
     n = 3
     windows = [(0,), (1,), (0, 1)]
     subsets = [tuple(i for i in range(n) if mask & (1 << i)) for mask in range(1, 1 << n)]
     counts = {"no-conflict": 0, "prevented": 0, "accountable-fork": 0, "silent-fork": 0}
-    mismatches = 0
+    formula_mismatches = 0
+    derived_relation_mismatches = 0
     rows = 0
+    explicit_cases = 0
+    derived_rows = 0
     incomparable_margins: Counter = Counter()
     with (out / "threshold-triage.csv").open("w", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(["windows", "capacity", "left_committee", "right_committee", "left_q", "right_q",
-                         "relation", "classification", "oracle_classification"])
+                         "relation", "classification", "oracle_classification", "evidence_path"])
         for ws in product(windows, repeat=n):
             for caps in product((0, 1), repeat=2):
                 proto = {"id": "oracle", "windows": [list(w) for w in ws], "capacity": list(caps),
@@ -185,6 +196,7 @@ def run_threshold_grid(out: Path) -> dict:
                     rank = len(maximum_exposure(overlap, ws, caps))
                     for ql in range(1, len(left) + 1):
                         for qr in range(1, len(right) + 1):
+                            explicit_cases += 1
                             intersections = [set(a).intersection(b)
                                              for a in combinations(left, ql)
                                              for b in combinations(right, qr)]
@@ -211,20 +223,35 @@ def run_threshold_grid(out: Path) -> dict:
                             else:
                                 formula_class = "silent-fork"
                             if formula_class != oracle_class:
-                                mismatches += 1
-                            for relation in ("incomparable", "right-over-left", "left-over-right"):
-                                predicted = formula_class if relation == "incomparable" else "no-conflict"
-                                expected = oracle_class if relation == "incomparable" else "no-conflict"
+                                formula_mismatches += 1
+                            counts[formula_class] += 1
+                            rows += 1
+                            writer.writerow([json.dumps(ws, separators=(",", ":")), json.dumps(caps),
+                                             json.dumps(left), json.dumps(right), ql, qr, "incomparable",
+                                             formula_class, oracle_class, "explicit-quorum-exposure"])
+                            for relation in ("right-over-left", "left-over-right"):
+                                predicted = "no-conflict"
+                                expected = "no-conflict"
                                 if predicted != expected:
-                                    mismatches += 1
-                                counts[predicted] += 1; rows += 1
+                                    derived_relation_mismatches += 1
+                                counts[predicted] += 1
+                                rows += 1
+                                derived_rows += 1
                                 writer.writerow([json.dumps(ws, separators=(",", ":")), json.dumps(caps),
                                                  json.dumps(left), json.dumps(right), ql, qr, relation,
-                                                 predicted, expected])
-    if rows != 46_656:
-        raise AssertionError(rows)
-    return {"cases": rows, "counts": counts, "mismatches": mismatches,
-            "incomparable_exposure_margin_histogram": stable_histogram(incomparable_margins)}
+                                                 predicted, expected, "derived-comparable-relation"])
+    if explicit_cases != 15_552 or derived_rows != 31_104 or rows != 46_656:
+        raise AssertionError((explicit_cases, derived_rows, rows))
+    return {
+        "recorded_rows": rows,
+        "incomparable_formula_oracle_cases": explicit_cases,
+        "ordered_relation_derived_rows": derived_rows,
+        "namespace_checker_models": 0,
+        "counts": counts,
+        "formula_oracle_mismatches": formula_mismatches,
+        "derived_relation_mismatches": derived_relation_mismatches,
+        "incomparable_exposure_margin_histogram": stable_histogram(incomparable_margins),
+    }
 
 
 def make_graph_model(index: int, root_relation: str, child_relation: str,
@@ -262,6 +289,7 @@ def run_graph_grid(out: Path) -> dict:
     profiles = ("disjoint", "shared", "threshold", "alternative")
     exposures = ("zero", "one", "two", "split", "holey", "staggered")
     model_count = 0; mismatches = 0; pair_total = 0; joint_blocked = 0
+    multi_locus_pairs = 0; branching_local_pairs = 0; multiple_final_set_pairs = 0
     result_counts = {"no-conflict": 0, "prevented": 0, "accountable-fork": 0, "silent-fork": 0}
     model_margins: Counter = Counter()
     pair_margins: Counter = Counter()
@@ -282,6 +310,12 @@ def run_graph_grid(out: Path) -> dict:
             pair_total += result["incompatible_view_pairs"]
             engine = Audit(NamespaceModel.parse(raw))
             for row in result["pairs"]:
+                if len(row["conflict_loci"]) > 1:
+                    multi_locus_pairs += 1
+                if any(count > 1 for count in row["option_counts"]):
+                    branching_local_pairs += 1
+                if len(row["minimal_forced_sets"]) > 1:
+                    multiple_final_set_pairs += 1
                 pair_margins[row["exposure_margin"]] += 1
                 pair_class_margins[(row["classification"], row["exposure_margin"])] += 1
                 hall_obstructions += sum(
@@ -300,14 +334,19 @@ def run_graph_grid(out: Path) -> dict:
                 if all_local_feasible:
                     joint_blocked += 1
     # 3*3*4*4*4*6 = 3456
-    if model_count != 3456:
-        raise AssertionError(model_count)
+    if (model_count, pair_total, multi_locus_pairs, branching_local_pairs, multiple_final_set_pairs) != (3456, 2496, 192, 0, 0):
+        raise AssertionError((model_count, pair_total, multi_locus_pairs,
+                              branching_local_pairs, multiple_final_set_pairs))
     class_margin_rows = {
         f"{classification}|{margin}": count
         for (classification, margin), count in sorted(pair_class_margins.items())
     }
     return {"models": model_count, "result_counts": result_counts,
-            "incompatible_view_pairs": pair_total, "joint_exposure_blocked_pairs": joint_blocked,
+            "incompatible_view_pairs": pair_total,
+            "multi_locus_incompatible_pairs": multi_locus_pairs,
+            "pairs_with_multiple_local_options": branching_local_pairs,
+            "pairs_with_multiple_final_sets": multiple_final_set_pairs,
+            "joint_exposure_blocked_pairs": joint_blocked,
             "oracle_mismatches": mismatches,
             "model_exposure_margin_histogram": stable_histogram(model_margins),
             "pair_exposure_margin_histogram": stable_histogram(pair_margins),
@@ -466,17 +505,271 @@ def run_controls(out: Path) -> dict:
         "control-holey-hall": "prevented",
         "control-transitive-dominance": "no-conflict",
     }
+    expected_counts = {
+        "no-conflict": 2,
+        "prevented": 3,
+        "accountable-fork": 2,
+        "silent-fork": 1,
+    }
     rows = []
     margins: Counter = Counter()
+    result_counts: Counter = Counter()
     for raw in control_models():
         result = audit(raw, include_pairs=True)
         if result["result"] != expected[raw["id"]] or not verify(raw, result):
             raise AssertionError((raw, result))
         rows.append({"model": raw, "result": result})
+        result_counts[result["result"]] += 1
         margins[result["minimum_exposure_margin"]] += 1
+    observed_counts = {name: result_counts[name] for name in expected_counts}
+    if observed_counts != expected_counts:
+        raise AssertionError((observed_counts, expected_counts))
     dump(out / "continuity-controls.json", rows)
-    return {"cases": len(rows), "expected_results_equal": True,
-            "exposure_margin_histogram": stable_histogram(margins)}
+    return {
+        "cases": len(rows),
+        "result_counts": observed_counts,
+        "expected_result_counts": expected_counts,
+        "expected_results_equal": True,
+        "exposure_margin_histogram": stable_histogram(margins),
+    }
+
+
+def branching_model(model_id: str, reverse_locus_families: bool = False) -> dict:
+    """Two valid views with two branching local support-intersection families."""
+    family_a = (
+        threshold_policy("a-left", (0, 1), 1),
+        threshold_policy("a-right", (0, 1), 2),
+    )
+    family_b = (
+        threshold_policy("b-left", (1, 2), 1),
+        threshold_policy("b-right", (1, 2), 2),
+    )
+    root_pair, child_pair = (family_b, family_a) if reverse_locus_families else (family_a, family_b)
+    policies = [root_pair[0], root_pair[1], child_pair[0], child_pair[1]]
+    return {
+        "id": model_id,
+        "key_count": 3,
+        "exposure": {"windows": [[0], [1], [2]], "capacity": [1, 0, 1]},
+        "policies": policies,
+        "loci": [{"id": "root", "parents": []}, {"id": "child", "parents": ["root"]}],
+        "events": [
+            {"id": "r-left", "locus": "root", "policy": root_pair[0]["id"],
+             "dominates": [], "requires": {}},
+            {"id": "r-right", "locus": "root", "policy": root_pair[1]["id"],
+             "dominates": [], "requires": {}},
+            {"id": "c-left", "locus": "child", "policy": child_pair[0]["id"],
+             "dominates": [], "requires": {"root": "r-left"}},
+            {"id": "c-right", "locus": "child", "policy": child_pair[1]["id"],
+             "dominates": [], "requires": {"root": "r-right"}},
+        ],
+    }
+
+
+def run_branching_regressions(out: Path) -> dict:
+    """Exercise branches that the broad graph grid does not contain."""
+    family_cases = [
+        {"id": "target-two-locus", "families": [[[0], [1]], [[1], [2]]],
+         "expected": [[1], [0, 2]]},
+        {"id": "reversed-locus-order", "families": [[[1], [2]], [[0], [1]]],
+         "expected": [[1], [0, 2]]},
+        {"id": "duplicate-union", "families": [[[0], [1]], [[0], [1]]],
+         "expected": [[0], [1]]},
+        {"id": "explicit-superset-deletion", "families": [[[0], [0, 1]], [[2]]],
+         "expected": [[0, 2]]},
+        {"id": "shared-key-three-locus", "families": [[[0], [1]], [[0], [2]], [[0], [3]]],
+         "expected": [[0], [1, 2, 3]]},
+    ]
+    family_outputs = []
+    differences = []
+    for case in family_cases:
+        observed = direct_union_antichain(case["families"])
+        family_outputs.append({"id": case["id"], "observed": observed})
+        if observed["minimal_sets"] != case["expected"]:
+            differences.append({"id": case["id"], "field": "minimal_sets",
+                                "expected": case["expected"], "observed": observed["minimal_sets"]})
+
+    model_cases = [
+        branching_model("branching-forward", False),
+        branching_model("branching-reversed", True),
+    ]
+    model_outputs = []
+    expected_pair = {
+        "option_counts": [2, 2],
+        "minimal_forced_sets": [[1], [0, 2]],
+        "classification": "accountable-fork",
+        "accountable": True,
+        "exposure_margin": 0,
+    }
+    compare_fields = list(expected_pair)
+    for raw in model_cases:
+        main_result = audit(raw, include_pairs=True)
+        direct_result = oracle(raw, include_pairs=True)
+        accepted = verify(raw, main_result)
+        if len(main_result["pairs"]) != 1 or len(direct_result["pairs"]) != 1:
+            differences.append({"id": raw["id"], "field": "pair_count",
+                                "main": len(main_result["pairs"]), "direct": len(direct_result["pairs"])})
+        else:
+            main_pair = main_result["pairs"][0]
+            direct_pair = direct_result["pairs"][0]
+            for field in compare_fields:
+                if main_pair[field] != direct_pair[field]:
+                    differences.append({"id": raw["id"], "field": field,
+                                        "main": main_pair[field], "direct": direct_pair[field]})
+                if main_pair[field] != expected_pair[field]:
+                    differences.append({"id": raw["id"], "field": "expected." + field,
+                                        "expected": expected_pair[field], "observed": main_pair[field]})
+            witness = main_pair.get("fork_witness")
+            if not isinstance(witness, dict) or witness.get("forced_keys") != [0, 2]:
+                differences.append({"id": raw["id"], "field": "fork_witness.forced_keys",
+                                    "expected": [0, 2], "observed": None if witness is None else witness.get("forced_keys")})
+        if not accepted:
+            differences.append({"id": raw["id"], "field": "verify", "expected": True, "observed": False})
+        model_outputs.append({"id": raw["id"], "main_checker": main_result,
+                              "direct_full_product_oracle": direct_result,
+                              "reported_result_accepted": accepted})
+
+    dump(out / "branching-oracle-inputs.json", {
+        "family_cases": family_cases,
+        "model_cases": model_cases,
+    })
+    dump(out / "branching-oracle-outputs.json", {
+        "family_outputs": family_outputs,
+        "model_outputs": model_outputs,
+    })
+    dump(out / "branching-oracle-diff.json", {
+        "mismatches": len(differences),
+        "differences": differences,
+        "direct_oracle_layerwise_union_pruning": False,
+    })
+    if differences:
+        raise AssertionError(differences)
+    return {
+        "family_cases": len(family_cases),
+        "model_cases": len(model_cases),
+        "mismatches": 0,
+        "target_minimal_forced_sets": [[1], [0, 2]],
+        "target_classification": "accountable-fork",
+        "target_exposure_margin": 0,
+        "direct_oracle_layerwise_union_pruning": False,
+    }
+
+
+def run_replay_admission_controls(out: Path) -> dict:
+    """Record repaired reader risks and current deterministic rejection checks."""
+    resolved = next(model for model in control_models()
+                    if model["id"] == "control-resolved-recovery")
+    resolved_result = audit(resolved, include_pairs=True)
+    legitimate_no_conflict_accepted = verify(resolved, resolved_result)
+
+    empty_events = json.loads(json.dumps(resolved))
+    empty_events["id"] = "negative-empty-events"
+    empty_events["events"] = []
+    forged_empty_report = {
+        "id": empty_events["id"], "result": "no-conflict", "valid_views": 0,
+        "incompatible_view_pairs": 0,
+        "pair_counts": {"prevented": 0, "accountable-fork": 0, "silent-fork": 0},
+        "globally_prevented": True, "globally_accountable": True,
+        "minimum_exposure_margin": None, "pairs": [],
+    }
+    empty_events_rejected = not verify(empty_events, forged_empty_report)
+
+    no_view = {
+        "id": "negative-no-valid-view", "key_count": 1,
+        "exposure": {"windows": [[0]], "capacity": [0]},
+        "policies": [key_policy("p", 0)],
+        "loci": [{"id": "root", "parents": []},
+                   {"id": "left", "parents": ["root"]},
+                   {"id": "right", "parents": ["root"]}],
+        "events": [
+            {"id": "r0", "locus": "root", "policy": "p", "dominates": [], "requires": {}},
+            {"id": "r1", "locus": "root", "policy": "p", "dominates": [], "requires": {}},
+            {"id": "l", "locus": "left", "policy": "p", "dominates": [], "requires": {"root": "r0"}},
+            {"id": "r", "locus": "right", "policy": "p", "dominates": [], "requires": {"root": "r1"}},
+        ],
+    }
+    forged_no_view = dict(forged_empty_report)
+    forged_no_view["id"] = no_view["id"]
+    no_valid_view_rejected = not verify(no_view, forged_no_view)
+
+    feasible = next(model for model in control_models()
+                    if model["id"] == "control-joint-feasible")
+    null_witness_result = audit(feasible, include_pairs=True)
+    null_witness_result["pairs"][0]["fork_witness"] = None
+    null_witness_rejected_without_exception = not verify(feasible, null_witness_result)
+
+    cases = [
+        {
+            "id": "legitimate-resolved-no-conflict",
+            "model": resolved,
+            "reported_result": resolved_result,
+            "expected_accept": True,
+            "observed_accept": legitimate_no_conflict_accepted,
+        },
+        {
+            "id": "reject-empty-events",
+            "model": empty_events,
+            "reported_result": forged_empty_report,
+            "expected_accept": False,
+            "observed_accept": not empty_events_rejected,
+        },
+        {
+            "id": "reject-zero-valid-views",
+            "model": no_view,
+            "reported_result": forged_no_view,
+            "expected_accept": False,
+            "observed_accept": not no_valid_view_rejected,
+        },
+        {
+            "id": "reject-null-feasible-witness",
+            "model": feasible,
+            "reported_result": null_witness_result,
+            "expected_accept": False,
+            "observed_accept": not null_witness_rejected_without_exception,
+        },
+    ]
+    differences = [
+        {"id": case["id"], "expected_accept": case["expected_accept"],
+         "observed_accept": case["observed_accept"]}
+        for case in cases if case["expected_accept"] != case["observed_accept"]
+    ]
+    current = {
+        "legitimate_no_conflict_accepted": legitimate_no_conflict_accepted,
+        "empty_event_model_rejected": empty_events_rejected,
+        "zero_valid_view_model_rejected": no_valid_view_rejected,
+        "null_feasible_witness_rejected_without_exception": null_witness_rejected_without_exception,
+    }
+    if differences or not all(current.values()):
+        raise AssertionError({"differences": differences, "checks": current})
+    dump(out / "replay-admission-inputs.json", {
+        "cases": [{key: value for key, value in case.items()
+                   if key in {"id", "model", "reported_result", "expected_accept"}}
+                  for case in cases]
+    })
+    dump(out / "replay-admission-outputs.json", {
+        "cases": [{"id": case["id"], "observed_accept": case["observed_accept"]}
+                  for case in cases],
+        "current_exclusion_checks": current,
+    })
+    dump(out / "replay-admission-diff.json", {
+        "mismatches": len(differences),
+        "differences": differences,
+    })
+    record = {
+        "risk_reproduced_before_repair": {
+            "empty_event_model": "accepted as no-conflict with valid_views=0",
+            "null_feasible_witness": "raised uncaught AttributeError",
+        },
+        "current_exclusion_checks": current,
+        "saved_case_files": [
+            "replay-admission-inputs.json",
+            "replay-admission-outputs.json",
+            "replay-admission-diff.json",
+        ],
+        "note": "The current package contains only the repaired reader; the pre-repair observations were produced by executing the inherited reader before this repair and cannot be rerun from the repaired package.",
+    }
+    dump(out / "replay-admission-controls.json", record)
+    return {"checks": len(current), "all_passed": True, "mismatches": 0,
+            "saved_input_cases": len(cases)}
 
 
 def main() -> None:
@@ -494,6 +787,12 @@ def main() -> None:
     policies = run_policy_pairs(out)
     controls = run_controls(out)
     margins = run_margin_oracle_grid(out)
+    branching = run_branching_regressions(out)
+    admission = run_replay_admission_controls(out)
+    checker_replay_models = graphs["models"] + reduction["cases"] + policies["cases"] + controls["cases"]
+    total_rows = (threshold["recorded_rows"] + checker_replay_models + margins["cases"])
+    if checker_replay_models != 4_484 or total_rows != 70_348:
+        raise AssertionError((checker_replay_models, total_rows))
     summary = {
         "purpose": "recovery-ordered continuity finite validation",
         "threshold_grid": threshold,
@@ -502,7 +801,15 @@ def main() -> None:
         "policy_pair_grid": policies,
         "controls": controls,
         "capacity_margin_oracle_grid": margins,
-        "total_primary_cases": threshold["cases"] + graphs["models"] + reduction["cases"] + policies["cases"] + controls["cases"] + margins["cases"],
+        "branching_pruning_regressions": branching,
+        "replay_admission_controls": admission,
+        "evidence_unit_totals": {
+            "total_recorded_rows": total_rows,
+            "checker_replay_namespace_models": checker_replay_models,
+            "threshold_formula_oracle_cases": threshold["incomparable_formula_oracle_cases"],
+            "derived_ordered_relation_rows": threshold["ordered_relation_derived_rows"],
+            "capacity_margin_oracle_cases": margins["cases"],
+        },
         "workers": 1,
         "cpu_seconds": time.process_time() - cpu,
         "wall_seconds": time.perf_counter() - wall,

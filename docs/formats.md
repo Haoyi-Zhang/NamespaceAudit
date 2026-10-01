@@ -55,7 +55,7 @@ A policy identifier is nonempty, unique, and at most 80 characters. There are at
 {"op": "threshold", "k": 2, "children": [0, 1, 3]}
 ```
 
-A key index must be valid. Threshold `k` is an ordinary positive integer not exceeding the number of distinct child indices. Children must be strictly increasing valid indices referring only to preceding nodes. The root is a valid node index. Repeated key leaves are permitted and denote the same key. Negation, mutable state, cycles, and false/unsatisfiable policies are not part of the language.
+A key index must be valid. Threshold `k` is an ordinary positive integer not exceeding the number of child indices. Children must be distinct valid indices referring only to preceding nodes; their list order is not semantically constrained and need not be sorted. The root is a valid node index. Repeated key leaves are permitted and denote the same key. Negation, mutable state, cycles, and false/unsatisfiable policies are not part of the language.
 
 ### Loci
 
@@ -117,7 +117,7 @@ Each incompatible-pair row contains:
 - `conflict_loci`: loci whose selected events are incomparable;
 - `option_counts`: number of retained minimal intersection choices at each conflict locus;
 - `minimal_forced_sets`: inclusion-minimal unions of keys forced to sign incomparable events;
-- `forced_set_analysis`: one row per forced set, containing its keys, maximum matching size, exact `exposure_deficit`, and either null or a deterministic positive `hall_obstruction`;
+- `forced_set_analysis`: one row per forced set, containing its keys, maximum matching size, exact `exposure_deficit`, and either null or a deterministic positive `hall_obstruction`; these rows do not contain schedules;
 - `exposure_margin`: the minimum deficit over the minimal forced sets;
 - `classification`: `silent-fork`, `accountable-fork`, or `prevented`;
 - `accountable`: true when the empty forced set is impossible; and
@@ -137,10 +137,10 @@ A Hall obstruction has exactly:
 
 The key subset has more demand than total capacity in its neighbor slots. For arbitrary noncontiguous windows this general certificate replaces interval-only reasoning. The deficit is also the exact minimum number of unit-capacity positions that must be added at slots already listed in the affected key windows to make that forced set exposable.
 
-A fork witness contains `forced_keys`, a key-to-slot `exposures` assignment, and one left/right policy-support pair for every conflict locus. It is a symbolic witness under the supplied model, not a cryptographic proof or evidence that a real exposure occurred.
+Exactly one deterministic `fork_witness` is retained for each feasible pair. It contains `forced_keys`, a key-to-slot `exposures` assignment, and one left/right policy-support pair for every conflict locus. Other feasible forced sets are represented only by their `forced_set_analysis` rows. The witness is symbolic under the supplied model, not a cryptographic proof or evidence that a real exposure occurred.
 
 ## Batch replay
 
-`src/continuity_replay.py MODELS.jsonl RESULTS.jsonl` independently recomputes and verifies paired JSON lines. It admits at most 8 keys, 64 KiB per line, and 100,000 lines. It validates the exact result schema, valid views, minimal supports, forced-set antichains, exposure schedules, matching sizes, Hall obstructions, pair and model margins, classifications, and deterministic witnesses. The reference campaign invokes replay automatically.
+`src/continuity_replay.py MODELS.jsonl RESULTS.jsonl` separately recomputes and verifies paired JSON lines. It admits at most 8 keys, 256 KiB per line, 10,000 paired lines, and 1,000,000 raw support-choice combinations per incompatible pair. It performs its own bounded model/reference admission and rejects an empty valid-view set. For each pair it enumerates every raw support-pair choice across all conflict loci, forms the full Cartesian product, and applies subset minimalization once at the end; it does not import or reuse the analyzer's parser, policy compiler, matching routine, local-intersection pruning, or layerwise union-antichain dynamic program. It validates the exact result schema, valid views, minimal supports, exposure schedules for the retained witness, matching sizes, Hall obstructions, pair and model margins, classifications, and deterministic witnesses. Both implementations still share Python, JSON, this schema, and the mathematical specification. The reference campaign invokes replay automatically.
 
 The older fixed-pair JSON-lines certificate interface remains exercised by `src/reproduce.py`; it is retained as a one-locus regression rather than the principal model.

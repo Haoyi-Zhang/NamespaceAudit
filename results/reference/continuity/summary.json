@@ -1,4 +1,21 @@
 {
+  "branching_pruning_regressions": {
+    "direct_oracle_layerwise_union_pruning": false,
+    "family_cases": 5,
+    "mismatches": 0,
+    "model_cases": 2,
+    "target_classification": "accountable-fork",
+    "target_exposure_margin": 0,
+    "target_minimal_forced_sets": [
+      [
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  },
   "capacity_margin_oracle_grid": {
     "cases": 19208,
     "exposure_margin_histogram": {
@@ -11,14 +28,33 @@
   },
   "controls": {
     "cases": 8,
+    "expected_result_counts": {
+      "accountable-fork": 2,
+      "no-conflict": 2,
+      "prevented": 3,
+      "silent-fork": 1
+    },
     "expected_results_equal": true,
     "exposure_margin_histogram": {
       "0": 3,
       "1": 3,
       "none": 2
+    },
+    "result_counts": {
+      "accountable-fork": 2,
+      "no-conflict": 2,
+      "prevented": 3,
+      "silent-fork": 1
     }
   },
-  "cpu_seconds": 3.4476445780000002,
+  "cpu_seconds": 4.0026101590000005,
+  "evidence_unit_totals": {
+    "capacity_margin_oracle_cases": 19208,
+    "checker_replay_namespace_models": 4484,
+    "derived_ordered_relation_rows": 31104,
+    "threshold_formula_oracle_cases": 15552,
+    "total_recorded_rows": 70348
+  },
   "general_theorem_mechanized": false,
   "graph_grid": {
     "hall_obstruction_certificates": 112,
@@ -31,6 +67,7 @@
       "none": 1920
     },
     "models": 3456,
+    "multi_locus_incompatible_pairs": 192,
     "oracle_mismatches": 0,
     "pair_class_margin_histogram": {
       "accountable-fork|0": 548,
@@ -43,6 +80,8 @@
       "1": 110,
       "2": 2
     },
+    "pairs_with_multiple_final_sets": 0,
+    "pairs_with_multiple_local_options": 0,
     "result_counts": {
       "accountable-fork": 348,
       "no-conflict": 1920,
@@ -63,7 +102,7 @@
     "reduction_mismatches": 0
   },
   "independent_human_review": false,
-  "peak_rss_kib": 95916,
+  "peak_rss_kib": 96424,
   "policy_pair_grid": {
     "cases": 512,
     "exposure_margin_histogram": {
@@ -79,23 +118,32 @@
     "oracle_mismatches": 0
   },
   "purpose": "recovery-ordered continuity finite validation",
+  "replay_admission_controls": {
+    "all_passed": true,
+    "checks": 4,
+    "mismatches": 0,
+    "saved_input_cases": 4
+  },
   "threshold_grid": {
-    "cases": 46656,
     "counts": {
       "accountable-fork": 3527,
       "no-conflict": 31104,
       "prevented": 2953,
       "silent-fork": 9072
     },
+    "derived_relation_mismatches": 0,
+    "formula_oracle_mismatches": 0,
     "incomparable_exposure_margin_histogram": {
       "0": 12599,
       "1": 2515,
       "2": 409,
       "3": 29
     },
-    "mismatches": 0
+    "incomparable_formula_oracle_cases": 15552,
+    "namespace_checker_models": 0,
+    "ordered_relation_derived_rows": 31104,
+    "recorded_rows": 46656
   },
-  "total_primary_cases": 70348,
-  "wall_seconds": 3.4478902430000744,
+  "wall_seconds": 4.002217036999923,
   "workers": 1
 }

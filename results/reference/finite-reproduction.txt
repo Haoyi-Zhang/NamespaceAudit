@@ -14,8 +14,8 @@
   "policy_mismatches": 0,
   "oracle_distinct_state_sum_over_window_capacity_inputs": 360,
   "workers": 1,
-  "cpu_seconds": 0.394664789,
-  "wall_seconds": 0.3944184869997116,
-  "peak_rss_kib": 93484,
+  "cpu_seconds": 0.403939969,
+  "wall_seconds": 0.40192823899997165,
+  "peak_rss_kib": 93736,
   "finite_not_mechanized_general_proof": true
 }

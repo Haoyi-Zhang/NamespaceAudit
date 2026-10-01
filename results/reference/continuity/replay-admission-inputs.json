@@ -1,0 +1,431 @@
+{
+  "cases": [
+    {
+      "expected_accept": true,
+      "id": "legitimate-resolved-no-conflict",
+      "model": {
+        "events": [
+          {
+            "dominates": [],
+            "id": "old",
+            "locus": "name",
+            "policy": "oldp",
+            "requires": {}
+          },
+          {
+            "dominates": [
+              "old"
+            ],
+            "id": "recovery",
+            "locus": "name",
+            "policy": "recp",
+            "requires": {}
+          }
+        ],
+        "exposure": {
+          "capacity": [
+            0
+          ],
+          "windows": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "id": "control-resolved-recovery",
+        "key_count": 2,
+        "loci": [
+          {
+            "id": "name",
+            "parents": []
+          }
+        ],
+        "policies": [
+          {
+            "id": "oldp",
+            "nodes": [
+              {
+                "key": 0,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          },
+          {
+            "id": "recp",
+            "nodes": [
+              {
+                "key": 1,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          }
+        ]
+      },
+      "reported_result": {
+        "globally_accountable": true,
+        "globally_prevented": true,
+        "id": "control-resolved-recovery",
+        "incompatible_view_pairs": 0,
+        "minimum_exposure_margin": null,
+        "pair_counts": {
+          "accountable-fork": 0,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [],
+        "result": "no-conflict",
+        "valid_views": 2
+      }
+    },
+    {
+      "expected_accept": false,
+      "id": "reject-empty-events",
+      "model": {
+        "events": [],
+        "exposure": {
+          "capacity": [
+            0
+          ],
+          "windows": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "id": "negative-empty-events",
+        "key_count": 2,
+        "loci": [
+          {
+            "id": "name",
+            "parents": []
+          }
+        ],
+        "policies": [
+          {
+            "id": "oldp",
+            "nodes": [
+              {
+                "key": 0,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          },
+          {
+            "id": "recp",
+            "nodes": [
+              {
+                "key": 1,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          }
+        ]
+      },
+      "reported_result": {
+        "globally_accountable": true,
+        "globally_prevented": true,
+        "id": "negative-empty-events",
+        "incompatible_view_pairs": 0,
+        "minimum_exposure_margin": null,
+        "pair_counts": {
+          "accountable-fork": 0,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [],
+        "result": "no-conflict",
+        "valid_views": 0
+      }
+    },
+    {
+      "expected_accept": false,
+      "id": "reject-zero-valid-views",
+      "model": {
+        "events": [
+          {
+            "dominates": [],
+            "id": "r0",
+            "locus": "root",
+            "policy": "p",
+            "requires": {}
+          },
+          {
+            "dominates": [],
+            "id": "r1",
+            "locus": "root",
+            "policy": "p",
+            "requires": {}
+          },
+          {
+            "dominates": [],
+            "id": "l",
+            "locus": "left",
+            "policy": "p",
+            "requires": {
+              "root": "r0"
+            }
+          },
+          {
+            "dominates": [],
+            "id": "r",
+            "locus": "right",
+            "policy": "p",
+            "requires": {
+              "root": "r1"
+            }
+          }
+        ],
+        "exposure": {
+          "capacity": [
+            0
+          ],
+          "windows": [
+            [
+              0
+            ]
+          ]
+        },
+        "id": "negative-no-valid-view",
+        "key_count": 1,
+        "loci": [
+          {
+            "id": "root",
+            "parents": []
+          },
+          {
+            "id": "left",
+            "parents": [
+              "root"
+            ]
+          },
+          {
+            "id": "right",
+            "parents": [
+              "root"
+            ]
+          }
+        ],
+        "policies": [
+          {
+            "id": "p",
+            "nodes": [
+              {
+                "key": 0,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          }
+        ]
+      },
+      "reported_result": {
+        "globally_accountable": true,
+        "globally_prevented": true,
+        "id": "negative-no-valid-view",
+        "incompatible_view_pairs": 0,
+        "minimum_exposure_margin": null,
+        "pair_counts": {
+          "accountable-fork": 0,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [],
+        "result": "no-conflict",
+        "valid_views": 0
+      }
+    },
+    {
+      "expected_accept": false,
+      "id": "reject-null-feasible-witness",
+      "model": {
+        "events": [
+          {
+            "dominates": [],
+            "id": "r0",
+            "locus": "root",
+            "policy": "r",
+            "requires": {}
+          },
+          {
+            "dominates": [],
+            "id": "r1",
+            "locus": "root",
+            "policy": "r",
+            "requires": {}
+          },
+          {
+            "dominates": [],
+            "id": "c0",
+            "locus": "child",
+            "policy": "c",
+            "requires": {
+              "root": "r0"
+            }
+          },
+          {
+            "dominates": [],
+            "id": "c1",
+            "locus": "child",
+            "policy": "c",
+            "requires": {
+              "root": "r1"
+            }
+          }
+        ],
+        "exposure": {
+          "capacity": [
+            2
+          ],
+          "windows": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "id": "control-joint-feasible",
+        "key_count": 2,
+        "loci": [
+          {
+            "id": "root",
+            "parents": []
+          },
+          {
+            "id": "child",
+            "parents": [
+              "root"
+            ]
+          }
+        ],
+        "policies": [
+          {
+            "id": "r",
+            "nodes": [
+              {
+                "key": 0,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          },
+          {
+            "id": "c",
+            "nodes": [
+              {
+                "key": 1,
+                "op": "key"
+              }
+            ],
+            "root": 0
+          }
+        ]
+      },
+      "reported_result": {
+        "globally_accountable": true,
+        "globally_prevented": false,
+        "id": "control-joint-feasible",
+        "incompatible_view_pairs": 1,
+        "minimal_fork_witness": {
+          "accountable": true,
+          "classification": "accountable-fork",
+          "conflict_loci": [
+            "root",
+            "child"
+          ],
+          "exposure_margin": 0,
+          "forced_set_analysis": [
+            {
+              "exposure_deficit": 0,
+              "forced_keys": [
+                0,
+                1
+              ],
+              "hall_obstruction": null,
+              "matching_size": 2
+            }
+          ],
+          "fork_witness": null,
+          "left_view": [
+            "r0",
+            "c0"
+          ],
+          "minimal_forced_sets": [
+            [
+              0,
+              1
+            ]
+          ],
+          "option_counts": [
+            1,
+            1
+          ],
+          "right_view": [
+            "r1",
+            "c1"
+          ]
+        },
+        "minimum_exposure_margin": 0,
+        "pair_counts": {
+          "accountable-fork": 1,
+          "prevented": 0,
+          "silent-fork": 0
+        },
+        "pairs": [
+          {
+            "accountable": true,
+            "classification": "accountable-fork",
+            "conflict_loci": [
+              "root",
+              "child"
+            ],
+            "exposure_margin": 0,
+            "forced_set_analysis": [
+              {
+                "exposure_deficit": 0,
+                "forced_keys": [
+                  0,
+                  1
+                ],
+                "hall_obstruction": null,
+                "matching_size": 2
+              }
+            ],
+            "fork_witness": null,
+            "left_view": [
+              "r0",
+              "c0"
+            ],
+            "minimal_forced_sets": [
+              [
+                0,
+                1
+              ]
+            ],
+            "option_counts": [
+              1,
+              1
+            ],
+            "right_view": [
+              "r1",
+              "c1"
+            ]
+          }
+        ],
+        "result": "accountable-fork",
+        "valid_views": 2
+      }
+    }
+  ]
+}

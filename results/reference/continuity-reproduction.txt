@@ -1,14 +1,18 @@
 {
   "purpose": "recovery-ordered continuity finite validation",
   "threshold_grid": {
-    "cases": 46656,
+    "recorded_rows": 46656,
+    "incomparable_formula_oracle_cases": 15552,
+    "ordered_relation_derived_rows": 31104,
+    "namespace_checker_models": 0,
     "counts": {
       "no-conflict": 31104,
       "prevented": 2953,
       "accountable-fork": 3527,
       "silent-fork": 9072
     },
-    "mismatches": 0,
+    "formula_oracle_mismatches": 0,
+    "derived_relation_mismatches": 0,
     "incomparable_exposure_margin_histogram": {
       "0": 12599,
       "1": 2515,
@@ -25,6 +29,9 @@
       "silent-fork": 1116
     },
     "incompatible_view_pairs": 2496,
+    "multi_locus_incompatible_pairs": 192,
+    "pairs_with_multiple_local_options": 0,
+    "pairs_with_multiple_final_sets": 0,
     "joint_exposure_blocked_pairs": 2,
     "oracle_mismatches": 0,
     "model_exposure_margin_histogram": {
@@ -74,6 +81,18 @@
   },
   "controls": {
     "cases": 8,
+    "result_counts": {
+      "no-conflict": 2,
+      "prevented": 3,
+      "accountable-fork": 2,
+      "silent-fork": 1
+    },
+    "expected_result_counts": {
+      "no-conflict": 2,
+      "prevented": 3,
+      "accountable-fork": 2,
+      "silent-fork": 1
+    },
     "expected_results_equal": true,
     "exposure_margin_histogram": {
       "0": 3,
@@ -91,11 +110,40 @@
       "3": 427
     }
   },
-  "total_primary_cases": 70348,
+  "branching_pruning_regressions": {
+    "family_cases": 5,
+    "model_cases": 2,
+    "mismatches": 0,
+    "target_minimal_forced_sets": [
+      [
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "target_classification": "accountable-fork",
+    "target_exposure_margin": 0,
+    "direct_oracle_layerwise_union_pruning": false
+  },
+  "replay_admission_controls": {
+    "checks": 4,
+    "all_passed": true,
+    "mismatches": 0,
+    "saved_input_cases": 4
+  },
+  "evidence_unit_totals": {
+    "total_recorded_rows": 70348,
+    "checker_replay_namespace_models": 4484,
+    "threshold_formula_oracle_cases": 15552,
+    "derived_ordered_relation_rows": 31104,
+    "capacity_margin_oracle_cases": 19208
+  },
   "workers": 1,
-  "cpu_seconds": 3.4476445780000002,
-  "wall_seconds": 3.4478902430000744,
-  "peak_rss_kib": 95916,
+  "cpu_seconds": 4.0026101590000005,
+  "wall_seconds": 4.002217036999923,
+  "peak_rss_kib": 96424,
   "general_theorem_mechanized": false,
   "independent_human_review": false
 }

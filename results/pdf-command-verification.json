@@ -1,0 +1,27 @@
+{
+  "appendix_text_ascii_double_hyphen_out": true,
+  "appendix_text_shell_continuation_present": true,
+  "commands": {
+    "full_reproduction": "PYTHONDONTWRITEBYTECODE=1 python3 src/reproduce.py --out <fresh-output-directory>",
+    "single_model": "PYTHONDONTWRITEBYTECODE=1 python3 src/continuity_audit.py inputs/example-namespace.json <fresh-output-file>"
+  },
+  "fresh_reproduction": {
+    "all_commands_succeeded": true,
+    "cumulative_child_peak_rss_kib": 96560,
+    "deterministic_certificate_bytes_equal": true,
+    "expected_continuity_counts_equal": true,
+    "expected_finite_counts_equal": true,
+    "general_proof_mechanized": false,
+    "independent_human_review": false,
+    "measured_child_cpu_seconds": 9.400384999999998
+  },
+  "fresh_reproduction_exit_code": 0,
+  "single_model_exit_code": 0,
+  "single_model_result": {
+    "id": "example-two-level-namespace",
+    "incompatible_view_pairs": 1,
+    "result": "prevented",
+    "valid_views": 2
+  },
+  "verification_scope": "Commands were copied from text extracted from the rebuilt appendix; output destinations were replaced only by fresh absolute paths in the same supported environment."
+}

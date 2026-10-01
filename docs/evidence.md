@@ -10,15 +10,24 @@ There is no learned component, sampled deployment population, performance target
 
 ### Relation-aware threshold grid
 
-For three keys and two exposure slots, each key receives one of the nonempty contiguous windows `[0]`, `[1]`, or `[0,1]`; each slot capacity is zero or one. Each event uses one of 12 legal nonempty committee/threshold combinations. The two events are either incomparable or ordered. The Cartesian product contains 46,656 cases.
+For three keys and two exposure slots, each key receives one of the nonempty contiguous windows `[0]`, `[1]`, or `[0,1]`; each slot capacity is zero or one. Each side uses one of 12 legal nonempty committee/threshold combinations. The retained CSV has 46,656 rows, but they are not one evidence type.
 
-A direct closed-form comparator returns `no-conflict` for ordered events and applies the threshold trichotomy to incomparable events. Results are 31,104 no-conflict, 2,953 prevented, 3,527 accountable-fork, and 9,072 silent-fork, with zero disagreements.
+Exactly 15,552 incomparable-event rows compare the threshold formula with explicit quorum-pair intersections and enumerated exposure states. They yield 2,953 prevented, 3,527 accountable-fork, and 9,072 silent-fork, with zero formula/oracle disagreements. The remaining 31,104 rows are the two ordered relations for each such parameter tuple. They record the direct semantic consequence `no-conflict`; they do not construct a namespace model and do not call the main checker or replay. The summary and paper therefore report them as derived ordered-relation bookkeeping, not independent checker validation.
 
 ### Two-locus graph grid
 
 The graph grid contains root and child loci. It varies the relation at each locus, four parent-dependency patterns, four policies per locus, and six exposure schedules, including noncontiguous and staggered windows. The 3,456 models are parsed and audited by the main checker and independently recomputed by direct enumeration.
 
-Results are 1,920 no-conflict, 72 prevented, 348 accountable-fork, and 1,116 silent-fork, with zero model-level disagreements. The models contain 2,496 incompatible valid-view pairs. Two pairs are feasible at every conflict locus in isolation but globally prevented because the union of forced keys exceeds shared exposure capacity. The checker emits 112 positive Hall-obstruction certificates. Pair exposure margins are 0 for 2,384 pairs, 1 for 110 pairs, and 2 for two pairs. These counts establish finite implementation behavior and a strictness example, not prevalence in deployed namespaces.
+Results are 1,920 no-conflict, 72 prevented, 348 accountable-fork, and 1,116 silent-fork, with zero model-level disagreements. The models contain 2,496 incompatible valid-view pairs, 192 of them multi-locus. Two pairs are feasible at every conflict locus in isolation but globally prevented because the union of forced keys exceeds shared exposure capacity. The checker emits 112 positive Hall-obstruction certificates. Pair exposure margins are 0 for 2,384 pairs, 1 for 110 pairs, and 2 for two pairs.
+
+This broad grid has an important coverage limit: every incompatible pair has exactly one retained local intersection option at each conflict locus and exactly one final minimal forced set. It therefore validates view construction, dependency composition, exposure, and replay on many models, but it does not test multi-branch union-antichain pruning. That obligation is addressed by the targeted regressions below. These counts establish finite implementation behavior and a strictness example, not prevalence in deployed namespaces.
+
+
+### Targeted branching and pruning regressions
+
+A micro-oracle accepts local forced-set families, enumerates their complete Cartesian product, takes every union, and performs subset minimalization only once at the end. It does not call the main checker's local-intersection or layerwise union-antichain routines. Five deterministic family cases cover multi-locus branching, duplicate unions, strict-superset deletion, a shared key across three loci, and locus-order invariance.
+
+The principal family input is `{{0},{1}}` and `{{1},{2}}`; the exact final antichain is `{{1},{0,2}}`. Two corresponding namespace models reverse the locus-family order. Their key windows are `[0]`, `[1]`, `[2]` and capacities are `[1,0,1]`. The forced set `{1}` is infeasible, whereas `{0,2}` is feasible, so both the main checker and full-product replay return `accountable-fork`, `exposure_margin=0`, and a witness using `{0,2}`. The complete inputs, both outputs, and an empty difference list are retained in `branching-oracle-inputs.json`, `branching-oracle-outputs.json`, and `branching-oracle-diff.json`.
 
 ### HITTING SET reduction grid
 
@@ -45,7 +54,7 @@ The retained policy set is deterministic and replayable but not exhaustive over 
 | `control-holey-hall` | Three keys use only slots 0 and 2 with total capacity two | `prevented` / 1, general Hall obstruction |
 | `control-transitive-dominance` | A child requirement is satisfied through the transitive dominance closure | `no-conflict` / none |
 
-All eight controls match the prespecified result and are accepted by the independent replay.
+All eight controls match the prespecified result and are accepted by the separate replay. The runner automatically aggregates and asserts the category distribution: 2 `no-conflict`, 3 `prevented`, 2 `accountable-fork`, and 1 `silent-fork`. The silent row is `control-omitted-resolution`; it is retained rather than absorbed into an accountable count.
 
 ### Exact capacity-margin oracle
 
@@ -65,13 +74,21 @@ Contiguous opportunity windows admit short interval-overload certificates. A hol
 
 ## Independent replay boundary
 
-`src/continuity_replay.py` imports neither `continuity.py` nor the analyzer's parser, matching routine, or policy compiler. For at most eight keys it directly evaluates policies, enumerates valid views and exposure assignments, reconstructs minimal forced-set antichains, validates policy-support witnesses and schedules, recomputes matching size and Hall deficiency, verifies the reported exact margin, and rejects missing, extra, or malformed evidence fields.
+`src/continuity_replay.py` imports neither `continuity.py` nor the analyzer's parser, matching routine, policy compiler, local-intersection pruning, or layerwise union-antichain dynamic program. It independently checks bounded model structure and references, rejects an empty valid-view set, recursively evaluates policies, enumerates valid views and temporal exposure states, enumerates the full Cartesian product of raw support-pair choices across all conflict loci, and minimalizes forced unions only once at the end. It validates the one retained feasible witness schedule, recomputes matching size and Hall deficiency for every forced set, verifies margins and schema fields, and rejects extra or malformed evidence.
 
-This is implementation diversity, not independent human review. Both programs share Python, JSON semantics, the published schema, and the same mathematical specification. Replay does not authenticate signatures, recovery order, clocks, or exposure facts.
+The full-product route is materially different from the main checker's pruning route, but it is not an independently developed formalization or human replication. Both programs share Python, JSON semantics, the published schema, the mathematical specification, and the same project authorship process. Replay does not authenticate signatures, recovery order, clocks, or exposure facts. Its direct support-product bound is 1,000,000 choices per incompatible pair.
+
+### Replay admission risk controls
+
+Before repair, executing the inherited reader reproduced two concrete risks: an empty event list paired with a forged `valid_views=0` no-conflict result was accepted, and a feasible pair with `fork_witness=null` raised an uncaught `AttributeError`. The repaired reader now performs its own finite structure/reference admission, rejects zero valid views, and checks nested result types before field access.
+
+Four retained cases distinguish current exclusions from the historical observations: a legal resolved-recovery no-conflict model remains accepted; an empty-event model is rejected; a nonempty, structurally valid model whose requirements leave no global view is rejected; and a null feasible witness is rejected without an uncaught exception. Exact current inputs, outputs, and zero-difference checks are in `replay-admission-inputs.json`, `replay-admission-outputs.json`, and `replay-admission-diff.json`. The package contains only the repaired reader, so the pre-repair behavior is recorded as an executed repair observation rather than claimed reproducible from the final code.
 
 ## Unit and mutation tests
 
-The final suite has 20 test methods. It covers positive and negative fixed-pair certificates, malformed inputs, fork- and obstruction-certificate mutation, noncontiguous Hall obstruction, threshold boundaries, shared policy leaves, maximum parser bounds, recovery controls, strict nonlocal composition, invalid graph inputs, the HITTING SET construction, oracle mutation detection, exact margins, the distinction between no-conflict and prevented, transitive dominance, and result-schema/witness mutation in the independent replay.
+The rebuilt appendix was also text-extracted and its documented commands were executed with fresh output destinations. The extracted reproduction option contains the literal ASCII `--out`, the displayed multiline commands retain shell continuation backslashes, and both the full reproducer and single-model command completed successfully. The machine-readable record is `results/pdf-command-verification.json`.
+
+The final suite has 25 test methods. In addition to the earlier certificate, parser, recovery, graph, reduction, Hall, and margin checks, it now covers full-product multi-branch combination, duplicate unions, strict-superset deletion, shared-key combination, locus-order invariance, the target accountable/margin-zero branching model, unsorted-but-preceding policy children, automatic semantic-control aggregation, replay rejection of empty/no-view models, and null feasible witnesses.
 
 Passing these tests shows that the named regressions are enforced. It does not exhaust all parser inputs or establish absence of implementation defects.
 

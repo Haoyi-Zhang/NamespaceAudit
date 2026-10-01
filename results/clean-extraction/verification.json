@@ -1,39 +1,36 @@
 {
-  "interpretation": "Finite clean-extraction agreement is not proof-assistant verification or independent human review.",
+  "archive_role": "complete project clean extraction candidate used for final packaging",
   "general_proof_mechanized": false,
   "independent_human_review": false,
-  "archive_role": "complete project clean extraction",
+  "interpretation": "Successful clean extraction and finite agreement do not constitute proof-assistant verification, independent human review, deployment evidence, or an online-consensus result.",
   "paper_build": {
-    "exit_status": 0,
-    "elapsed": "0:03.55",
-    "max_rss_kib": 57984,
-    "main_pages": 12,
     "appendix_pages": 4,
-    "critical_latex_warnings": false
-  },
-  "reproduction_process": {
+    "critical_latex_warnings": false,
+    "elapsed_seconds": 3.19,
     "exit_status": 0,
-    "elapsed": "0:09.64",
-    "max_rss_kib": 96936
+    "extracted_text_equal_to_packaged_pdfs": true,
+    "main_pages": 12,
+    "max_rss_kib": 57984,
+    "pdf_byte_difference_interpretation": "TeX rebuild metadata/trailer bytes differ; extracted text and all 200-dpi rendered pages are identical.",
+    "pdf_bytes_equal": false,
+    "rendered_pages_changed_at_200_dpi": 0
   },
   "scientific_reproduction": {
-    "exact_deterministic_files": 17,
-    "exact_files_equal": true,
-    "deterministic_summaries_equal": [
-      "finite/summary.json",
-      "continuity/summary.json"
-    ],
-    "unit_test_transcript_equal_after_runtime_normalization": true,
+    "continuity_summary_deterministic_fields_equal": true,
+    "deterministic_files_checked": 24,
+    "deterministic_files_equal": true,
+    "finite_summary_deterministic_fields_equal": true,
     "mismatches": [],
     "reproduction": {
       "all_commands_succeeded": true,
+      "cumulative_child_peak_rss_kib": 98476,
       "deterministic_certificate_bytes_equal": true,
-      "expected_finite_counts_equal": true,
       "expected_continuity_counts_equal": true,
-      "measured_child_cpu_seconds": 8.976219,
-      "cumulative_child_peak_rss_kib": 96936,
+      "expected_finite_counts_equal": true,
       "general_proof_mechanized": false,
-      "independent_human_review": false
-    }
+      "independent_human_review": false,
+      "measured_child_cpu_seconds": 8.75797
+    },
+    "unit_test_transcript_equal_after_runtime_normalization": true
   }
 }
