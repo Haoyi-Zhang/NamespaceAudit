@@ -111,4 +111,4 @@ No result asserts a vulnerability in SFS, KERI, a PKI, or any third-party implem
 
 ## Licensing and research status
 
-Original code, tests, symbolic inputs, generated results, and repository documentation are licensed under `LICENSE`. Scholarly papers and publisher assets are cited but not redistributed here. Substantive AI assistance contributed to the code, proofs, and text; this was not merely grammar editing. The theorem has not received independent human or proof-assistant verification. The materials are an internal research artifact and require human authorship, factual, originality, and policy review before external use.
+Original code, tests, symbolic inputs, generated results, and repository documentation are licensed under `LICENSE`. Scholarly papers and publisher assets are cited but not redistributed here. The theorem has not received independent external or proof-assistant verification.
