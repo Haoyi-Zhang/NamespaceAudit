@@ -6,7 +6,7 @@ This document gives the complete written argument used by the manuscript.  It is
 
 ### 1.1 Keys, policies, and supports
 
-Let `K` be a finite set of distinct signing-key identities.  An authorization policy `P` is an upward-closed family of subsets of `K`: if `Q` satisfies `P`, every superset of `Q` also satisfies `P`.  A **support** is a satisfying set.  A support is **minimal** if no proper subset satisfies the policy.  Every policy admitted by the checker is a finite monotone threshold circuit over key leaves; repeated leaves name the same physical key.
+Let `K` be a finite set of distinct signing-key identities.  An authorization policy `P` is an upward-closed family of subsets of `K`: if `Q` satisfies `P`, every superset of `Q` also satisfies `P`. Every event policy is satisfiable, equivalently `K` belongs to `P_e`. A **support** is a satisfying set.  A support is **minimal** if no proper subset satisfies the policy.  Every policy admitted by the checker is a finite monotone threshold circuit over key leaves; repeated leaves name the same physical key.
 
 A certificate for event `e` contains signatures from a support of the event's immutable policy snapshot `P_e`.  Extra signatures may be discarded, so every certificate contains a minimal support as a subset.
 
@@ -54,7 +54,7 @@ If two certificates can be produced with arbitrary supports while exposing a set
 
 ### Theorem 1 (exact view-pair criterion)
 
-Two valid views `v,w` can both be certified while every unexposed key obeys chain signing if and only if there is a choice of minimal supports at their conflict loci for which `X(v,w,Q,R)` belongs to `F`.
+Under the satisfiable-policy premise, two valid views `v,w` can both be certified while every unexposed key obeys chain signing if and only if there is a choice of minimal supports at their conflict loci for which `X(v,w,Q,R)` belongs to `F`.
 
 **Necessity.**  Suppose both views have certificates and the adversary exposes `B in F`.  At any conflict locus, every key in both certificate supports signed two incomparable events.  Chain signing therefore implies that the key is in `B`.  Hence the union of all such intersections is a subset of `B`.  Apply Lemma 1 and downward closure.
 
