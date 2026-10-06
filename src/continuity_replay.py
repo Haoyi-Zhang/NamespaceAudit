@@ -541,6 +541,26 @@ def oracle(raw: dict, include_pairs: bool = True) -> dict:
     return output
 
 
+def _same_json_value(got: object, want: object) -> bool:
+    """Compare JSON values without Python's bool/int/float coercion.
+
+    Numeric equality alone is insufficient for this result schema: key indices,
+    counts, and deficits are integers, while accountability flags are booleans.
+    Recurse through evidence rows so their nested fields obey the same rule.
+    """
+    if type(got) is not type(want):
+        return False
+    if isinstance(want, dict):
+        return set(got) == set(want) and all(
+            _same_json_value(got[key], value) for key, value in want.items()
+        )
+    if isinstance(want, list):
+        return len(got) == len(want) and all(
+            _same_json_value(left, right) for left, right in zip(got, want)
+        )
+    return got == want
+
+
 def verify(raw: dict, reported: dict) -> bool:
     try:
         expected = oracle(raw, include_pairs=True)
@@ -556,7 +576,7 @@ def verify(raw: dict, reported: dict) -> bool:
             "id", "result", "valid_views", "incompatible_view_pairs", "pair_counts",
             "globally_prevented", "globally_accountable", "minimum_exposure_margin",
         ]:
-            if reported.get(key) != expected[key]:
+            if not _same_json_value(reported.get(key), expected[key]):
                 return False
         got_pairs = reported.get("pairs")
         if not isinstance(got_pairs, list) or len(got_pairs) != len(expected["pairs"]):
@@ -579,13 +599,13 @@ def verify(raw: dict, reported: dict) -> bool:
                 "minimal_forced_sets", "forced_set_analysis", "exposure_margin",
                 "classification", "accountable",
             ]:
-                if got.get(key) != want[key]:
+                if not _same_json_value(got.get(key), want[key]):
                     return False
             fork_witness = got.get("fork_witness")
             if want["classification"] != "prevented":
                 if not isinstance(fork_witness, dict):
                     return False
-                if fork_witness.get("forced_keys") != want["minimal_forced_keys"]:
+                if not _same_json_value(fork_witness.get("forced_keys"), want["minimal_forced_keys"]):
                     return False
                 if not _valid_support_witness(raw, got, supports, event_by_name, raw["loci"]):
                     return False
@@ -599,7 +619,7 @@ def verify(raw: dict, reported: dict) -> bool:
                 row["left_view"],
                 row["right_view"],
             ))
-            if reported.get("minimal_fork_witness") != feasible_pairs[0]:
+            if not _same_json_value(reported.get("minimal_fork_witness"), feasible_pairs[0]):
                 return False
         return True
     except (KeyError, TypeError, ValueError, IndexError, StopIteration, AssertionError, AttributeError):

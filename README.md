@@ -31,7 +31,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 src/reproduce.py --out results/local
 
 The runner executes one child at a time and refuses to overwrite evidence. It performs:
 
-1. 25 unit-test methods;
+1. 27 unit-test methods (the historical reference run contains the earlier 25);
 2. the retained fixed-pair and policy-DAG regression campaign;
 3. the recovery-ordered continuity campaign;
 4. fixed-pair certificate generation and independent replay;
@@ -41,6 +41,8 @@ The runner executes one child at a time and refuses to overwrite evidence. It pe
 Completion is recorded only when `results/local/reproduction.json` reports success. A directory name, partial output, or successful PDF build is not proof of scientific correctness.
 
 Each scientific child is limited to 120 CPU seconds and 3 GiB of address space, with a 120-second wall timeout. The code uses POSIX resource limits; a non-POSIX port has not been validated. No network, solver, package installation, private data, model API, secret key, live service, or paper directory is required.
+
+The two added tests enforce type-sensitive result replay: integer evidence cannot be replaced by a numerically equal Boolean or float, and Boolean flags cannot be replaced by integers. They cover 446 single-field substitutions across the eight semantic controls and one branching model, plus nine valid JSON round trips. A current Windows library-level check uses a wall-bounded private harness; it is not a run of the POSIX reproducer. `results/reference/` retains the historical POSIX outputs and resource measurements, rather than replacing them with Windows telemetry.
 
 ## Model in one paragraph
 
@@ -95,6 +97,8 @@ Finite agreement checks an implementation over the stated inputs. It does not es
 ## Implemented bounds
 
 The main checker admits 1--12 keys, 1--8 loci, 1--32 events, at most 8 events per locus, at most 32 policies, at most 64 nodes per policy, a 1--12-slot exposure horizon, and at most 100,000 candidate view tuples. The direct replay oracle admits at most 8 keys and 1,000,000 raw support-choice combinations per incompatible pair. Policy truth tables and exact support families are exponential in distinct keys; the general decision problem is NP-complete even for one locus and two events.
+
+The checker enumerates the candidate-view product and pairs of valid views. Its key-parameter tractability statement is relative to that explicit view count, not to the compact graph alone. Hall evidence requires subset enumeration for every retained forced set, and Python truth-vector operations have exponential bit length; `proofs/model.md` includes these costs in its conservative bound.
 
 ## Security and interpretation boundaries
 

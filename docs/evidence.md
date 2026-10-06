@@ -86,15 +86,15 @@ Four retained cases distinguish current exclusions from the historical observati
 
 ## Unit and mutation tests
 
-The rebuilt appendix was also text-extracted and its documented commands were executed with fresh output destinations. The extracted reproduction option contains the literal ASCII `--out`, the displayed multiline commands retain shell continuation backslashes, and both the full reproducer and single-model command completed successfully. The machine-readable record is `results/pdf-command-verification.json`.
+The earlier reference appendix was text-extracted and its documented commands were executed with fresh output destinations. That historical check found the literal ASCII `--out`, retained shell continuation backslashes, and successful full-reproducer and single-model commands. Its machine-readable record is `results/pdf-command-verification.json`; it does not establish a build or command extraction of the currently edited TeX sources.
 
-The final suite has 25 test methods. In addition to the earlier certificate, parser, recovery, graph, reduction, Hall, and margin checks, it now covers full-product multi-branch combination, duplicate unions, strict-superset deletion, shared-key combination, locus-order invariance, the target accountable/margin-zero branching model, unsorted-but-preceding policy children, automatic semantic-control aggregation, replay rejection of empty/no-view models, and null feasible witnesses.
+The current suite has 27 test methods; the historical POSIX reference ran 25. In addition to the earlier certificate, parser, recovery, graph, reduction, Hall, and margin checks, it covers full-product multi-branch combination, duplicate unions, strict-superset deletion, shared-key combination, locus-order invariance, the target accountable/margin-zero branching model, unsorted-but-preceding policy children, automatic semantic-control aggregation, replay rejection of empty/no-view models, and null feasible witnesses. Two added methods reject 446 individual numeric-type substitutions across nine model results and retain nine valid JSON round trips. Type-sensitive replay is a result-schema property, not an additional cryptographic guarantee.
 
 Passing these tests shows that the named regressions are enforced. It does not exhaust all parser inputs or establish absence of implementation defects.
 
 ## Resource observations
 
-`src/reproduce.py` runs one child at a time, refuses an existing output directory, applies 120 CPU-second and 3 GiB address-space limits to scientific children, and reconciles outputs against both expected-count files. The final retained measurements are stored in `results/reference/reproduction.json` and `results/reference/run-ledger.json`; timing may vary by environment. `results/intake.json` and `results/campaign-budget.json` record the one-time intake and conservative campaign accounting.
+`src/reproduce.py` runs one child at a time on POSIX, refuses an existing output directory, applies 120 CPU-second and 3 GiB address-space limits to scientific children, and reconciles outputs against both expected-count files. Historical host measurements remain in `results/reference/reproduction.json` and `results/reference/run-ledger.json`; timing may vary by environment. The bounded current Windows library-level rerun reproduces the continuity campaign's deterministic semantic fields and executes the current tests, but does not run the POSIX command-line resource-limit path. `results/intake.json` and `results/campaign-budget.json` retain the earlier intake and campaign accounting.
 
 ## Result interpretation checklist
 

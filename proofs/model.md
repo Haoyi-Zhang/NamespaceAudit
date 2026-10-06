@@ -209,13 +209,13 @@ A dynamic program combines conflict loci.  Its state is a bit mask for the union
 
 A temporal matching tests exposability.  For every final forced set the checker records the forced keys, matching size, exact deficit, and either a deterministic Hall obstruction or null.  These per-set analysis rows do not carry schedules.  The pair output includes the minimum margin `Delta`.  If any forced set is feasible, the result additionally carries one lexicographically deterministic fork witness: two views, one support pair per conflict locus, the selected forced set, and its key-to-slot exposure assignment.  A blocked result carries the complete final antichain and blocking evidence for every member; one Hall subset alone would not prove the universal claim.  A model with no incompatible view pair is reported as `no-conflict`.
 
-If `N` is the number of candidate view tuples and `m` the number of loci, the implementation is fixed-parameter tractable in `k`, with a conservative bound
+Let `S` be total circuit encoding size, `N` the number of candidate view tuples, and `m` the number of loci. Charging truth-vector operations by their bit length gives the conservative bound
 
 ```
-O(sum of policy sizes * 2^k + N^2 * m * 4^k + N^2 * 2^k * poly(k,T)).
+2^{O(k)} * poly(S,N,m,|E|,|T|).
 ```
 
-The `4^k` term covers the worst-case cross product of two minimal-support antichains.  This is not claimed polynomial in the number of keys.  The delivered checker admits at most 12 keys, 8 loci, 32 events, and 100,000 candidate view tuples.
+Support cross-products and subset comparisons have at most `4^k` combinations. Hall-certificate extraction enumerates up to `2^|X|` subsets for every retained forced set, and compilation uses `2^k`-bit Python integers rather than unit-cost truth vectors. These costs are included in the exponential factor. This is fixed-parameter tractability in `k` relative to explicit candidate-view count `N`, not relative to a compact graph description whose view product can be exponential. The delivered checker admits at most 12 keys, 8 loci, 32 events, and 100,000 candidate view tuples.
 
 The separate replay implementation does not import the analyzer, matching code, parser, truth-table compiler, local-intersection pruning, or layerwise union-antichain dynamic program.  It performs its own bounded structure/reference admission and rejects models with no valid view.  For at most eight keys it directly evaluates policies, enumerates valid views and exposure states, enumerates the full Cartesian product of raw support-pair choices across all conflict loci, and minimalizes forced unions only once at the end.  It checks the one retained feasible witness schedule, recomputes Hall deficiencies for every forced set, validates every result field, and rejects extra or malformed evidence.  The graph grid alone does not exercise this algorithmic difference: its 2,496 incompatible pairs include 192 multi-locus pairs but no pair with more than one local option or final set.  Five direct set-family cases and two branching namespace models therefore target duplicate unions, strict-superset deletion, a shared key, locus-order invariance, and the antichain `{{1},{0,2}}`.  A further 19,208-case oracle directly searches the minimum number of capacity additions and compares it with both matching deficit and Hall deficiency.
 
@@ -229,7 +229,7 @@ FORK is NP-complete even for one locus, two events, and one exposure slot.
 
 **Membership.**  A certificate consists of two satisfying key sets and an exposed set of size at most `b` containing their intersection.  Circuit evaluation and set checks are polynomial.
 
-**Hardness.**  Reduce HITTING SET.  For universe `K={k1,...,kn}`, family `S1,...,Sm`, and budget `b`, create policy
+**Hardness.** Reduce HITTING SET restricted to a nonempty universe and a nonempty family of nonempty subsets. This restriction remains NP-hard: vertex cover is its two-element-subset special case. For universe `K={k1,...,kn}`, family `S1,...,Sm`, and budget `b`, create policy
 
 ```
 P = AND over j of (OR over ki in Sj of ki)

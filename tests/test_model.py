@@ -236,4 +236,35 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(summary['result_counts'],{
             'no-conflict':2,'prevented':3,'accountable-fork':2,'silent-fork':1})
 
+    def test_continuity_reader_rejects_numeric_type_substitutions(self):
+        def leaves(value, path=()):
+            if type(value) in (int, bool):
+                yield path, value
+            elif isinstance(value, dict):
+                for key, child in value.items():
+                    yield from leaves(child, path+(key,))
+            elif isinstance(value, list):
+                for index, child in enumerate(value):
+                    yield from leaves(child, path+(index,))
+        for raw in control_models()+[branching_model('typed-branching')]:
+            good=audit(raw)
+            self.assertTrue(verify_continuity(raw,good))
+            for path, old in leaves(good):
+                replacements=[int(old)] if type(old) is bool else [float(old)]
+                if type(old) is int and old in (0,1):
+                    replacements.append(bool(old))
+                for replacement in replacements:
+                    with self.subTest(model=raw['id'],path=path,replacement=replacement):
+                        bad=copy.deepcopy(good);parent=bad
+                        for part in path[:-1]:parent=parent[part]
+                        parent[path[-1]]=replacement
+                        self.assertFalse(verify_continuity(raw,bad))
+
+    def test_continuity_reader_preserves_valid_json_roundtrip(self):
+        import json
+        for raw in control_models()+[branching_model('roundtrip-branching')]:
+            model=json.loads(json.dumps(raw))
+            reported=json.loads(json.dumps(audit(model)))
+            self.assertTrue(verify_continuity(model,reported))
+
 if __name__=='__main__':unittest.main()
