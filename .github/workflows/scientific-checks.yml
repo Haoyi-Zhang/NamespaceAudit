@@ -32,6 +32,9 @@ jobs:
           mkdir -p scientific-output
           ulimit -v 4194304
           ulimit -t 780
+          timeout --signal=TERM --kill-after=5s 60s \
+            python -B tests/regression_exposure_reuse.py \
+            2>&1 | tee scientific-output/exposure-reuse.log
           timeout --signal=TERM --kill-after=10s 780s \
             python -B src/reproduce.py --out scientific-output/reproduction \
             2>&1 | tee scientific-output/console.log

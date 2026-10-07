@@ -202,6 +202,8 @@ class Audit:
         }
         self._dominates = self._dominance_closure()
         self.valid_views = self._enumerate_valid_views()
+        self._exposure_parameters = None
+        self._exposure_cache: dict[tuple[int, ...], tuple] = {}
 
     def _dominance_closure(self) -> set[tuple[str, str]]:
         relation = {(e.name, e.name) for e in self.model.events}
@@ -278,16 +280,39 @@ class Audit:
         schedule = tuple((k, assignment[k]) for k in keys if k in assignment)
         return feasible, schedule
 
-    def _exposure_analysis(self, mask: int) -> dict:
+    def _exposure_record(self, mask: int) -> tuple:
+        # At most 2**key_count entries for the current immutable exposure input.
+        # Keep no caller-owned lists/dicts; do not cache mutable policy nodes.
+        parameters = (self.model.key_count, self.model.windows, self.model.capacity)
+        if parameters != self._exposure_parameters:
+            self._exposure_cache.clear()
+            self._exposure_parameters = parameters
         keys = tuple(k for k in range(self.model.key_count) if mask & (1 << k))
+        if keys in self._exposure_cache:
+            return self._exposure_cache[keys]
         assignment = maximum_exposure(keys, self.model.windows, self.model.capacity)
         deficit = len(keys) - len(assignment)
         obstruction = hall_obstruction(keys, self.model.windows, self.model.capacity)
         if (obstruction is None) != (deficit == 0):
             raise AssertionError("matching and Hall certificates disagree")
+        hall = None if obstruction is None else (
+            tuple(obstruction["keys"]), tuple(obstruction["slots"]),
+            obstruction["demand"], obstruction["capacity"], obstruction["deficit"],
+        )
+        schedule = tuple((k, assignment[k]) for k in keys if k in assignment)
+        record = (keys, len(assignment), deficit, hall, schedule)
+        self._exposure_cache[keys] = record
+        return record
+
+    def _exposure_analysis(self, mask: int) -> dict:
+        keys, matching_size, deficit, hall, _ = self._exposure_record(mask)
+        obstruction = None if hall is None else {
+            "keys": list(hall[0]), "slots": list(hall[1]), "demand": hall[2],
+            "capacity": hall[3], "deficit": hall[4],
+        }
         return {
             "forced_keys": list(keys),
-            "matching_size": len(assignment),
+            "matching_size": matching_size,
             "exposure_deficit": deficit,
             "hall_obstruction": obstruction,
         }
@@ -320,7 +345,8 @@ class Audit:
             analysis = self._exposure_analysis(mask)
             forced_set_analysis.append((mask.bit_count(), mask, analysis))
             if analysis["exposure_deficit"] == 0:
-                feasible, schedule = self._exposure_for_mask(mask)
+                keys, matching_size, _, _, schedule = self._exposure_record(mask)
+                feasible = matching_size == len(keys)
                 if not feasible:
                     raise AssertionError("zero deficit lacks an exposure assignment")
                 feasible_rows.append((mask.bit_count(), mask, witness, schedule))

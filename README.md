@@ -46,6 +46,22 @@ The two added tests enforce type-sensitive result replay: integer evidence canno
 
 ## Model in one paragraph
 
+The analyzer reuses immutable exposure analyses within one `Audit` instance,
+keyed by forced-key set and cleared if its exposure parameters change. Hall
+subset enumeration and its separate matching consistency check are retained on
+first use; the feasible witness uses that same deterministic assignment. Returned
+evidence lists/dictionaries are fresh. Policy, view, antichain, margin and witness
+selection semantics are unchanged; the independent replay does not share this
+cache. This removes repeated analysis work, not scientific cases or obligations,
+and makes no measured speedup claim.
+
+`python -B tests/regression_exposure_reuse.py` runs three additional finite checks
+over twelve owned models, including literal partial-assignment/Hall enumeration,
+full replay, repeated pairs, nested result mutation, capacity isolation and
+refusals. Scientific CI runs this explicit step before the unchanged full
+reproducer; it is separate from the retained 27-method suite and does not rewrite
+archived measurements or certify the POSIX campaign on Windows.
+
 A finite acyclic graph of namespace loci contains events. Each event snapshots a satisfiable monotone authorization policy, may require events at parent loci, and belongs to a protocol-supplied dominance order at its locus. A valid view selects one event per locus and satisfies parent requirements up to dominance. Two views conflict where their events are incomparable. An honest unexposed key may sign comparable events at one locus, but not incomparable events there; it may sign independently at different loci. Exposed keys belong to a downward-closed temporal family defined by per-key exposure slots and per-slot capacities.
 
 For a pair of incompatible views, select a minimal policy support for each selected event at each conflict locus. The keys forced to equivocate are the union of the support intersections across all conflict loci. The pair is feasible exactly when some such union is exposable. For every forced set the checker also reports maximum matching size, exact Hall deficiency, and (when positive) a deterministic Hall obstruction. The minimum deficiency over all minimal forced sets is the exact number of unit-capacity additions at already allowed slots needed to make that view pair feasible. `proofs/model.md` gives the complete written proof, computational lifting under attributable EUF-CMA signatures, threshold specialization, graph-composition result, complexity boundary, and currentness limitation. These are mathematical arguments in the declared model, not proof-assistant output.
