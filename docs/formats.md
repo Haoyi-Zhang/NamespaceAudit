@@ -2,6 +2,10 @@
 
 ## Single-model command
 
+Use Python 3.10+ on Linux or Linux under WSL2. This CLI imports POSIX
+`resource` and is not a supported native-Windows execution path; it requires
+no third-party Python packages.
+
 ```sh
 python3 src/continuity_audit.py MODEL.json RESULT.json
 ```
