@@ -1,0 +1,18 @@
+{
+  "current_exclusion_checks": {
+    "empty_event_model_rejected": true,
+    "legitimate_no_conflict_accepted": true,
+    "null_feasible_witness_rejected_without_exception": true,
+    "zero_valid_view_model_rejected": true
+  },
+  "note": "The current package contains only the repaired reader; the pre-repair observations were produced by executing the inherited reader before this repair and cannot be rerun from the repaired package.",
+  "risk_reproduced_before_repair": {
+    "empty_event_model": "accepted as no-conflict with valid_views=0",
+    "null_feasible_witness": "raised uncaught AttributeError"
+  },
+  "saved_case_files": [
+    "replay-admission-inputs.json",
+    "replay-admission-outputs.json",
+    "replay-admission-diff.json"
+  ]
+}

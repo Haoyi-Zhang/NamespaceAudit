@@ -55,6 +55,14 @@ For an incompatible view pair, the analyzer combines minimal policy supports and
 - `claim_evidence_ledger.csv`: claim-to-proof/check/result map.
 - `results/reference/`: historical reference outputs and resource records; the other retained receipts document intake, accounting, extraction, and historical command checks, not fresh verification of edited sources.
 
+## Diagrams
+
+The self-contained `plot_schematics.py` uses Matplotlib to generate the three
+manuscript schematics directly as vector PDFs. Run
+`python3 -B plot_schematics.py --outdir ../paper/figures` to regenerate the assets.
+The optional `check_schematics.py` uses pypdf as well and checks two deterministic
+regenerations, vector structure and embedded fonts, separately from the scientific campaign.
+
 ## Bounds and conditions
 
 The analyzer admits 1–12 keys, 1–8 loci, 1–32 events (at most 8 per locus), at most 32 policies with 64 nodes each, a 1–12-slot exposure horizon, and at most 100,000 candidate view tuples. The direct replay admits at most 8 keys and 1,000,000 raw support combinations per incompatible pair. Exact support/Hall enumeration is exponential; tractability is relative to explicit view count, not just compact graph size.

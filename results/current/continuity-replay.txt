@@ -1,0 +1,1 @@
+{"accepted_models": 3456, "layerwise_union_pruning": false, "reader_imports_analyzer": false, "support_combination": "full-cartesian-then-final-minimalization"}

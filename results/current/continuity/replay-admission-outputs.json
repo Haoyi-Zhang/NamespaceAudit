@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "id": "legitimate-resolved-no-conflict",
+      "observed_accept": true
+    },
+    {
+      "id": "reject-empty-events",
+      "observed_accept": false
+    },
+    {
+      "id": "reject-zero-valid-views",
+      "observed_accept": false
+    },
+    {
+      "id": "reject-null-feasible-witness",
+      "observed_accept": false
+    }
+  ],
+  "current_exclusion_checks": {
+    "empty_event_model_rejected": true,
+    "legitimate_no_conflict_accepted": true,
+    "null_feasible_witness_rejected_without_exception": true,
+    "zero_valid_view_model_rejected": true
+  }
+}
